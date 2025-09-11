@@ -1,14 +1,19 @@
 .logo {
-  margin-top: -48px;
   width: 120px;
+  margin-top: 0; /* tirei o -48px pq quebrava o alinhamento */
 }
-header {
-  background: #e0e1e3;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (min-width: 1200px) {
   header {
     margin-left: 100px;
     margin-right: 100px;
+    border-radius: 16px;
   }
 }
