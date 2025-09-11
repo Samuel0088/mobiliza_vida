@@ -131,6 +131,7 @@ export default function BusMap() {
 
   return (
     <div
+      className="mt-4 md:mt-8 lg:mt-24"
       style={{
         height: "100vh",
         width: "100vw",

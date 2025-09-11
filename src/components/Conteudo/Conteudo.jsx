@@ -68,15 +68,18 @@ const Conteudo = () => {
             <br />
             <span className="whitespace-nowrap">
               com soluções&nbsp;
+              <br className="inline lg:hidden" />
               <span
-                className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-block relative`}
+                className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-block relative lg:whitespace-nowrap`}
                 aria-live="polite"
                 aria-atomic="true"
-                style={{ minWidth: "6ch" }}
+                style={{ width: `${words.reduce((a, b) => (a.length > b.length ? a : b)).length}ch`, minWidth: "6ch", textAlign: 'center' }}
               >
-                {displayedWord}
-                <span className="animate-pulse">|</span>
-                <span className="invisible">
+                <span className="inline-block w-full text-center md:text-left">
+                  {displayedWord}
+                  <span className="animate-pulse">|</span>
+                </span>
+                <span className="invisible absolute">
                   {words.reduce((a, b) => (a.length > b.length ? a : b))}
                 </span>
               </span>
