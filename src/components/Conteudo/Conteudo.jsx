@@ -51,15 +51,15 @@ const Conteudo = () => {
 
   return (
     <main
-      className={`${style.Conteudo} font-poppins relative`}
+      className={`${style.Conteudo} font-poppins relative px-2 md:px-6 lg:px-24`}
       style={poppinsInline}
     >
       {/* Slogan à esquerda e ônibus à direita */}
-      <div className="flex items-center justify-between w-full px-8 mt-[-100px]">
-        {/* Texto com espaçamento da esquerda */}
-        <div className="max-w-xl pl-[300px]"> {/* ← espaçamento aqui */}
+      <div className="flex flex-col lg:flex-row items-center mx-auto mt-[-100px] gap-y-6 lg:gap-x-16 max-w-7xl">
+        {/* Texto */}
+        <div className="flex-1 max-w-xl min-w-0 md:min-w-[320px] text-center md:text-left mb-8 lg:mb-0">
           <h1
-            className="normal-case font-bold text-4xl md:text-5xl leading-snug"
+            className="normal-case font-bold text-3xl md:text-5xl leading-snug"
             style={poppinsInline}
           >
             Conecte pessoas e
@@ -69,40 +69,41 @@ const Conteudo = () => {
             <span className="whitespace-nowrap">
               com soluções&nbsp;
               <span
-                className={`${colors[wordIndex]} font-bold text-5xl`}
+                className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-block relative`}
                 aria-live="polite"
                 aria-atomic="true"
+                style={{ minWidth: "6ch" }}
               >
                 {displayedWord}
+                <span className="animate-pulse">|</span>
+                <span className="invisible">
+                  {words.reduce((a, b) => (a.length > b.length ? a : b))}
+                </span>
               </span>
-              <span className="animate-pulse">|</span>
             </span>
           </h1>
 
-          <br />
-          <button
-            className={`${style.botaoOpcoes} font-semibold`}
-            role="button"
-            style={poppinsInline}
-          >
-            Ver rotas
-          </button>
+          <div className="mt-4 md:mt-6">
+            <button
+              className={`${style.botaoOpcoes} font-semibold`}
+              role="button"
+              style={poppinsInline}
+            >
+              Ver rotas
+            </button>
+          </div>
         </div>
 
-        {/* Imagem à direita */}
-        <img
-          src={Onibus}
-          alt="Ônibus de transporte público"
-          style={{
-            width: "35%",
-            maxWidth: "600px",
-            minWidth: "200px",
-            marginTop: "-120px",
-          }}
-        />
+        {/* Imagem */}
+        <div className="w-full lg:w-[40%] flex justify-center lg:justify-end">
+          <img
+            src={Onibus}
+            alt="Ônibus de transporte público"
+            className="w-2/3 max-w-[250px] md:w-2/3 md:max-w-[350px] lg:w-full lg:max-w-[400px]"
+          />
+        </div>
       </div>
 
-      <br />
       <br />
       <br />
       <BusMap />

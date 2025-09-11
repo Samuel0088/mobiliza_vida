@@ -131,6 +131,7 @@ padding: 1rem 2rem;
   .imagem_destaque img {
       max-width: 80%;
   }
+
 }
 
 @media (max-width: 576px) {
@@ -227,14 +228,19 @@ color: #555;
 font-size: 14px;
 color: #000;
 }
+.ResponsiveSlogan {
+  margin-left: 0; /* padrão */
+}
 
 
 @media (min-width: 1200px) {
   .title {
     margin-top: 10px;
 }
+  .ResponsiveSlogan {
+    margin-left: -200px;
+  }
 }
-
 
 
 
