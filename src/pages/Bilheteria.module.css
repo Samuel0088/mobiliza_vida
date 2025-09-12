@@ -1,0 +1,1105 @@
+ * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .bilheteria-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Conteúdo principal */
+        .main-content {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Progresso - design melhorado */
+        .progresso {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3.5rem;
+            position: relative;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .progresso::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.4), rgba(52, 152, 219, 0.2));
+            z-index: 1;
+            border-radius: 3px;
+        }
+        
+        .progresso-bar {
+            position: absolute;
+            top: 24px;
+            left: 0;
+            height: 6px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            z-index: 2;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        .etapa {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .etapa span {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: rgba(52, 152, 219, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+        
+        .etapa.ativo span {
+            background-color: #3498db;
+            box-shadow: 0 0 0 6px rgba(52, 152, 219, 0.25);
+            transform: scale(1.1);
+        }
+        
+        .etapa.concluido span {
+            background-color: #2ecc71;
+            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+        }
+        
+        .etapa p {
+            margin: 0;
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: 500;
+            text-align: center;
+            max-width: 100px;
+        }
+        
+        .etapa.ativo p, .etapa.concluido p {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        /* Container das etapas */
+        .etapa-container {
+            background-color: white;
+            padding: 2.8rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            animation: slideIn 0.5s;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .etapa-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3498db, #2c3e50);
+        }
+        
+        .etapa-container h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .etapa-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            border-radius: 2px;
+        }
+        
+        .etapa-descricao {
+            color: #7f8c8d;
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        /* Opções de empresa */
+        .opcoes-empresa {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2.5rem 0;
+        }
+        
+        .opcao-empresa {
+            border: 2px solid #e8edf1;
+            border-radius: 18px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .opcao-empresa::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-empresa:hover {
+            border-color: #3498db;
+            transform: translateY(-8px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .opcao-empresa:hover::before {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+        }
+        
+        .opcao-empresa.selecionado {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #f8fcff 0%, #eaf2f8 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .opcao-empresa.selecionado::before {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+        }
+        
+        .empresa-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.2rem;
+            color: #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-empresa:hover .empresa-icon {
+            transform: scale(1.1);
+            color: #2c3e50;
+        }
+        
+        .opcao-empresa h3 {
+            margin: 0 0 0.8rem 0;
+            color: #2c3e50;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        
+        .opcao-empresa p {
+            margin: 0 0 0.8rem 0;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .empresa-detalhe {
+            font-size: 0.95rem;
+            color: #95a5a6;
+            font-style: italic;
+        }
+        
+        /* Lista de linhas */
+        .lista-linhas {
+            max-height: 500px;
+            overflow-y: auto;
+            margin: 2rem 0;
+            padding-right: 10px;
+        }
+        
+        /* Custom scrollbar */
+        .lista-linhas::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .lista-linhas::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .lista-linhas::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 10px;
+        }
+        
+        .lista-linhas::-webkit-scrollbar-thumb:hover {
+            background: #2c3e50;
+        }
+        
+        .opcao-linha {
+            border: 1px solid #e8edf1;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            background: white;
+            position: relative;
+        }
+        
+        .opcao-linha::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: transparent;
+            border-radius: 16px 0 0 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-linha:hover {
+            border-color: #3498db;
+            background-color: #f9fcff;
+            transform: translateX(5px);
+        }
+        
+        .opcao-linha:hover::before {
+            background: #3498db;
+        }
+        
+        .opcao-linha.selecionado {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #f8fcff 0%, #eaf2f8 100%);
+            transform: translateX(5px);
+        }
+        
+        .opcao-linha.selecionado::before {
+            background: #3498db;
+        }
+        
+        .linha-numero {
+            background: #3498db;
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-right: 1.2rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-linha:hover .linha-numero {
+            transform: scale(1.05);
+            background: #2c3e50;
+        }
+        
+        .linha-info {
+            flex-grow: 1;
+        }
+        
+        .opcao-linha h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .info-motorista {
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-motorista i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+        
+        .horarios-linha h4 {
+            margin: 0 0 0.8rem 0;
+            font-size: 0.95rem;
+            color: #2c3e50;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .horarios-linha h4 i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+        
+        .lista-horarios {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        
+        .horario {
+            background: #e8f4fc;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #3498db;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .horario:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .linha-selecionador {
+            color: #3498db;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-left: 0.8rem;
+            align-self: center;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-linha:hover .linha-selecionador {
+            transform: scale(1.2);
+        }
+        
+        /* Linhas selecionadas */
+        .linhas-selecionadas {
+            background: linear-gradient(135deg, #eaf2f8 0%, #d4e6f1 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border-left: 5px solid #3498db;
+            animation: fadeIn 0.5s;
+        }
+        
+        .linhas-selecionadas h3 {
+            margin: 0 0 1rem 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .linhas-selecionadas h3 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .linha-selecionada-item {
+            margin-bottom: 0.8rem;
+            color: #7f8c8d;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .linha-selecionada-item span {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        /* Opções de pagamento */
+        .opcoes-pagamento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+        
+        .opcao-pagamento {
+            border: 2px solid #e8edf1;
+            border-radius: 16px;
+            padding: 1.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .opcao-pagamento::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-pagamento:hover {
+            border-color: #3498db;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .opcao-pagamento:hover::before {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+        }
+        
+        .opcao-pagamento.selecionado {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #f8fcff 0%, #eaf2f8 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .opcao-pagamento.selecionado::before {
+            background: linear-gradient(to right, #3498db, #2c3e50);
+        }
+        
+        .pagamento-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
+            color: #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .opcao-pagamento:hover .pagamento-icon {
+            transform: scale(1.1);
+            color: #2c3e50;
+        }
+        
+        .opcao-pagamento h3 {
+            margin: 0 0 0.8rem 0;
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+        
+        .opcao-pagamento p {
+            margin: 0;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Formulário do cartão */
+        .cartao-form {
+            background: #f9fcff;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 1px solid #e8edf1;
+            animation: fadeIn 0.5s;
+        }
+        
+        .cartao-form h3 {
+            margin: 0 0 1.5rem 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cartao-form h3 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* QR Code */
+        .qrcode-container {
+            text-align: center;
+            margin: 2.5rem 0;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f9fcff 0%, #eaf2f8 100%);
+            border-radius: 16px;
+            border: 1px solid #e8edf1;
+            animation: fadeIn 0.5s;
+        }
+        
+        .qrcode-container h3 {
+            margin: 0 0 1.5rem 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qrcode-container h3 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .qrcode-fake {
+            width: 220px;
+            height: 220px;
+            background-color: white;
+            margin: 0 auto;
+            position: relative;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .qrcode-pattern {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background-image: 
+                linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        
+        .qrcode-fake::before, .qrcode-fake::after {
+            content: '';
+            position: absolute;
+            background: #3498db;
+            border-radius: 8px;
+        }
+        
+        .qrcode-fake::before {
+            width: 50px;
+            height: 50px;
+            top: 20px;
+            left: 20px;
+        }
+        
+        .qrcode-fake::after {
+            width: 30px;
+            height: 30px;
+            bottom: 20px;
+            right: 20px;
+        }
+        
+        .codigo-pix {
+            margin: 1.5rem 0 0 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #2c3e50;
+            border: 1px dashed #3498db;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Confirmação */
+        .confirmacao {
+            text-align: center;
+            padding: 3.5rem 2.5rem;
+            animation: fadeIn 0.8s;
+        }
+        
+        .icone-confirmacao {
+            font-size: 5rem;
+            margin: 0 0 2rem 0;
+            color: #2ecc71;
+            animation: bounce 1.2s;
+        }
+        
+        .confirmacao-mensagem {
+            font-size: 1.4rem;
+            color: #7f8c8d;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .detalhes-compra {
+            text-align: left;
+            background: linear-gradient(135deg, #f9fcff 0%, #eaf2f8 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2.5rem 0;
+            border: 1px solid #e8edf1;
+        }
+        
+        .detalhes-compra h3 {
+            margin: 0 0 1.5rem 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detalhes-compra h3 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .detalhe-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e8edf1;
+        }
+        
+        .detalhe-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detalhe-label {
+            font-weight: 500;
+            color: #7f8c8d;
+        }
+        
+        .detalhe-valor {
+            color: #2c3e50;
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .codigo-confirmacao {
+            margin: 3rem 0;
+        }
+        
+        .codigo-confirmacao h3 {
+            margin: 0 0 1.5rem 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .codigo-confirmacao h3 i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .codigo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 6px;
+            color: #2c3e50;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+            animation: pulse 2s infinite;
+            font-family: monospace;
+            border: 2px dashed #2ecc71;
+            display: inline-block;
+        }
+        
+        .codigo-confirmacao p {
+            color: #7f8c8d;
+            margin: 0;
+            line-height: 1.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Botões melhorados */
+        .botoes-navegacao {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2.5rem;
+            gap: 1.5rem;
+        }
+        
+        .btn-avancar, .btn-voltar, .btn-reiniciar {
+            padding: 1.2rem 2.2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-avancar {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-avancar:hover:not(:disabled) {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-avancar:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-avancar:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-avancar i {
+            margin-left: 8px;
+        }
+        
+        .btn-voltar {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(149, 165, 166, 0.2);
+        }
+        
+        .btn-voltar:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-voltar i {
+            margin-right: 8px;
+        }
+        
+        .btn-reiniciar {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            margin: 0 auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-reiniciar:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-reiniciar i {
+            margin-right: 8px;
+        }
+        
+        /* Animações melhoradas */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-25px); }
+            60% { transform: translateY(-15px); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+        
+        /* Responsividade melhorada */
+        @media (max-width: 992px) {
+            .main-content {
+                padding: 2rem;
+            }
+            
+            .etapa-container {
+                padding: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .bilheteria-container {
+                padding: 15px;
+                align-items: flex-start;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+                margin: 15px auto;
+                border-radius: 20px;
+            }
+            
+            .progresso {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+                margin-bottom: 2.5rem;
+            }
+            
+            .progresso::before {
+                display: none;
+            }
+            
+            .progresso-bar {
+                display: none;
+            }
+            
+            .etapa {
+                flex-direction: row;
+            }
+            
+            .etapa span {
+                margin-right: 1.2rem;
+                margin-bottom: 0;
+            }
+            
+            .etapa p {
+                text-align: left;
+            }
+            
+            .etapa-container {
+                padding: 1.8rem;
+            }
+            
+            .etapa-container h2 {
+                font-size: 1.6rem;
+            }
+            
+            .etapa-descricao {
+                font-size: 1rem;
+            }
+            
+            .opcoes-empresa, .opcoes-pagamento {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            .opcao-empresa, .opcao-pagamento {
+                padding: 1.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            
+            .botoes-navegacao {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-avancar, .btn-voltar, .btn-reiniciar {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .lista-linhas {
+                max-height: 400px;
+            }
+            
+            .opcao-linha {
+                padding: 1.2rem;
+            }
+            
+            .linha-numero {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+                margin-right: 1rem;
+            }
+            
+            .linha-info h3 {
+                font-size: 1.1rem;
+            }
+            
+            .codigo {
+                font-size: 1.8rem;
+                letter-spacing: 3px;
+                padding: 1.2rem;
+            }
+            
+            .qrcode-fake {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .confirmacao {
+                padding: 2.5rem 1.5rem;
+            }
+            
+            .icone-confirmacao {
+                font-size: 4rem;
+            }
+            
+            .confirmacao-mensagem {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 1.2rem;
+                border-radius: 16px;
+            }
+            
+            .etapa-container {
+                padding: 1.5rem;
+                border-radius: 14px;
+            }
+            
+            .etapa-container h2 {
+                font-size: 1.4rem;
+            }
+            
+            .opcao-linha {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .linha-numero {
+                margin-right: 0;
+                margin-bottom: 0.8rem;
+                align-self: center;
+            }
+            
+            .linha-selecionador {
+                margin-top: 0.8rem;
+                margin-left: 0;
+            }
+            
+            .codigo {
+                font-size: 1.4rem;
+                padding: 1rem;
+                letter-spacing: 2px;
+            }
+            
+            .qrcode-container {
+                padding: 1.5rem;
+            }
+            
+            .qrcode-fake {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .codigo-pix {
+                font-size: 1rem;
+                padding: 0.8rem;
+            }
+            
+            .cartao-form {
+                padding: 1.5rem;
+            }
+            
+            .detalhes-compra {
+                padding: 1.5rem;
+            }
+            
+            .btn-avancar, .btn-voltar, .btn-reiniciar {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .etapa-container {
+                padding: 1.2rem;
+            }
+            
+            .opcao-empresa, .opcao-pagamento {
+                padding: 1.2rem;
+            }
+            
+            .empresa-icon {
+                font-size: 2.8rem;
+            }
+            
+            .pagamento-icon {
+                font-size: 2.2rem;
+            }
+            
+            .opcao-empresa h3 {
+                font-size: 1.3rem;
+            }
+            
+            .opcao-pagamento h3 {
+                font-size: 1.1rem;
+            }
+        }

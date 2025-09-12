@@ -1,8 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Logo_branca from '../assets/Imagens/Logo_branca.png';
-import Logo from '../assets/Imagens/Logo.png'
-import styles from '../components/Footer/Footer.module.css'
 
 export default function AcessibilidadeOnibus({ user, handleLogout }) {
   // Estados para controle de acessibilidade
@@ -33,7 +29,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
   const handleFont = (mult) => {
     const newSize = Math.max(14, Math.min(28, Math.round(fontSize * mult)));
     setFontSize(newSize);
-    setAssistMessage(`Tamanho do texto ajustado para ${newSize}px.`);
+    setAssistMessage(`Tamanho do texto ajustado.`);
     setTimeout(() => setAssistMessage(""), 3000);
   };
 
@@ -47,8 +43,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
   // Função para enviar o formulário de solicitação de ajuda
   const handleSubmit = (e) => {
     e.preventDefault();
-    setAssistMessage(`Solicitação enviada. Obrigado, ${formData.name || "Usuário"}. Equipe informada (protótipo).`);
-    alert("Solicitação enviada. Equipe informada (protótipo).");
+    alert(`Solicitação enviada. Obrigado, ${formData.name + ". " + "Tipo de soliçitação: " + formData.helpType}. Equipe informada.`);
     setFormData({ name: "", phone: "", helpType: "Ajuda para embarcar", notes: "" });
     setShowForm(false);
     setTimeout(() => setAssistMessage(""), 5000);
@@ -66,9 +61,115 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
   return (
     <>
     <div 
-      className={`min-h-screen ${highContrast ? "bg-black text-yellow-300" : "bg-gray-50 text-gray-900"}`}
+      className={`min-h-screen ${highContrast ? "bg-black text-yellow-300" : "bg-gray-60 text-gray-900 mt-[-50px] "}`}
       style={{ fontSize: `${fontSize}px`, marginTop: '-100x' }}
     >
+    <div className="flex flex-wrap gap-2 items-center justify-center md:justify-start px-20 md:ml-[200px]">  
+            <button
+            onClick={() => handleFont(0.9)}
+            className={`focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded px-3 py-2 bg-sky-700 text-white font-semibold`}
+            aria-label="Diminuir tamanho do texto"
+          >
+            A-
+          </button>
+            <button
+              onClick={() => handleFont(1.125)}
+              className={`focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded px-3 py-2 bg-sky-700 text-white font-semibold`}
+              aria-label="Aumentar tamanho do texto"
+            >
+              A+
+            </button>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className={`focus:outline-none focus:ring-2 focus:ring-yellow-400 rounded px-3 py-2 bg-sky-700 text-white font-semibold`}
+            >
+              {showForm ? "Fechar Formulário" : "Solicitar Ajuda"}
+            </button>
+            </div>
+
+             {showForm && (
+          <div className={`max-w-7xl mx-auto mt-4 p-4 bg-white text-gray-900 rounded-lg shadow-lg`}>
+            <h2 className="text-xl font-semibold mb-3">Solicitar Assistência</h2>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-1">Nome</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className={`w-full p-2 rounded border-gray-300 border`}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium mb-1">Telefone</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className={`w-full p-2 rounded border-gray-300 border`}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="helpType" className="block text-sm font-medium mb-1">Tipo de Ajuda</label>
+                <select
+                  id="helpType"
+                  name="helpType"
+                  value={formData.helpType}
+                  onChange={handleInputChange}
+                  className={`w-full p-2 rounded ${highContrast ? "bg-gray-800 text-yellow-300 border-yellow-400" : "border-gray-300"} border`}
+                >
+                  <option value="Ajuda para embarcar">Ajuda para embarcar</option>
+                  <option value="Ajuda para desembarcar">Ajuda para desembarcar</option>
+                  <option value="Informações sobre acessibilidade">Informações sobre acessibilidade</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </div>
+              <div className="md:col-span-2">
+                <label htmlFor="notes" className="block text-sm font-medium mb-1">Observações</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className={`w-full p-2 rounded ${highContrast ? "bg-gray-800 text-yellow-300 border-yellow-400" : "border-gray-300"} border`}
+                ></textarea>
+              </div>
+              <div className="md:col-span-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className={`px-4 py-2 rounded font-medium ${highContrast ? "bg-gray-700 text-yellow-300" : "bg-gray-300 text-gray-800"}`}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className={`px-4 py-2 rounded font-medium ${highContrast ? "bg-yellow-400 text-black" : "bg-sky-700 text-white"}`}
+                >
+                  Enviar Solicitação
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Mensagem de feedback para o usuário */}
+        {assistMessage && (
+          <div 
+            className={`max-w-7xl mx-auto mt-4 p-3 rounded-lg border ${highContrast ? "bg-yellow-400 text-black border-yellow-500" : "bg-yellow-100 text-gray-900 border-yellow-300"}`}
+            role="status"
+            aria-live="polite"
+          >
+            {assistMessage}
+          </div>
+        )}
       {/* Link para pular para o conteúdo principal (acessibilidade) */}
       <a
         href="#main"
@@ -301,6 +402,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
           </div>
         </section>
       </main>
+      
     </div>
      
       </>

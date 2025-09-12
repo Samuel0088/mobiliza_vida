@@ -50,7 +50,7 @@ function LinhaSou() {
 
   return (
     <>
-      <div style={{paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#f9fafb', marginTop: '-50px'}}>
+      <div style={{paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#f9fafb', marginTop: '-80px'}}>
         <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 20px' }}>
           
           <header style={{ marginBottom: '40px' }}>

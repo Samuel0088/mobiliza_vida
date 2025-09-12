@@ -103,128 +103,132 @@ export default function RatingApp() {
   };
 
   return (
-    <div className={styles.app}>
+    <div className='mt-[-100px]'>
+      <div className={styles.app}>
 
-      {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={styles.container}>
-          <div className={styles.heroContent}>
-            <h1>Deixe sua Avaliação</h1>
-            <p>Sua opinião é muito importante para nós. Compartilhe sua experiência e ajude-nos a melhorar!</p>
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <div className={styles.container}>
+            <div className={styles.heroContent}>
+              <h1>Deixe sua Avaliação</h1>
+              <p>Sua opinião é muito importante para nós. Compartilhe sua experiência e ajude-nos a melhorar!</p>
+            </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Avaliação Form */}
-      <section className={styles.avaliacao}>
-        <div className={styles.container}>
-          <div className={styles.sectionTitle}>
-            <h2>Avalie Nossos Serviços</h2>
-            <p>Conte-nos o que você achou da sua experiência conosco</p>
-          </div>
-          <div className={styles.avaliacaoForm}>
-            <form onSubmit={handleSubmit}>
-              <div className={styles.formGroup}>
-                <label htmlFor="name">Seu Nome</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className={styles.formControl}
-                  placeholder="Digite seu nome completo"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Seu E-mail</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className={styles.formControl}
-                  placeholder="seu@email.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>Sua Avaliação</label>
-                <div className={styles.ratingContainer}>
-                  <div className={styles.stars}>
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <label key={star} className={styles.starLabel}>
-                        <input
-                          type="radio"
-                          name="rating"
-                          value={star}
-                          checked={formData.rating === star}
-                          onChange={() => handleRatingChange(star)}
-                          className={styles.starInput}
-                        />
-                        <span className={`${styles.star} ${formData.rating >= star ? styles.filled : ''}`}>
-                          ★
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                  <div className={styles.ratingText}>
-                    {formData.rating > 0 ? `${formData.rating} estrela${formData.rating > 1 ? 's' : ''}` : 'Selecione uma avaliação'}
+        </section>
+        
+        {/* Avaliação Form */}
+        <section className={styles.avaliacao}>
+          <div className={styles.container}>
+            <div className={styles.sectionTitle}>
+              <h2>Avalie Nossos Serviços</h2>
+              <p>Conte-nos o que você achou da sua experiência conosco</p>
+            </div>
+            <div className={styles.avaliacaoForm}>
+              <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="name">Seu Nome</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className={styles.formControl}
+                    placeholder="Digite seu nome completo"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="email">Seu E-mail</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className={styles.formControl}
+                    placeholder="seu@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Sua Avaliação</label>
+                  <div className={styles.ratingContainer}>
+                    <div className={styles.stars}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <label key={star} className={styles.starLabel}>
+                          <input
+                            type="radio"
+                            name="rating"
+                            value={star}
+                            checked={formData.rating === star}
+                            onChange={() => handleRatingChange(star)}
+                            className={styles.starInput}
+                          />
+                          <span className={`${styles.star} ${formData.rating >= star ? styles.filled : ''}`}>
+                            ★
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    <div className={styles.ratingText}>
+                      {formData.rating > 0 ? `${formData.rating} estrela${formData.rating > 1 ? 's' : ''}` : 'Selecione uma avaliação'}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="message">Seu Comentário</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  className={styles.formControl}
-                  placeholder="Compartilhe detalhes sobre sua experiência..."
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-              </div>
-              <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`}>
-                Enviar Avaliação
-              </button>
-            </form>
+                <div className={styles.formGroup}>
+                  <label htmlFor="message">Seu Comentário</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    className={styles.formControl}
+                    placeholder="Compartilhe detalhes sobre sua experiência..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`}>
+                  Enviar Avaliação
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
-      </section>
-      
-      {/* Avaliações */}
-      <section className={styles.avaliacoes}>
-        <div className={styles.container}>
-          <div className={styles.sectionTitle}>
-            <h2>Avaliações Recentes</h2>
-            <p>Veja o que outros clientes estão dizendo sobre nós</p>
-          </div>
-          <div className={styles.avaliacoesGrid}>
-            {reviews.length === 0 ? (
-              <div className={styles.emptyState}>
-                <i className="fas fa-comment-slash"></i>
-                <p>Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
+        </section>
+        
+        {/* Avaliações */}
+        <div className='mb-[100px]'>
+          <section className={styles.avaliacoes}>
+            <div className={styles.container}>
+              <div className={styles.sectionTitle}>
+                <h2>Avaliações Recentes</h2>
+                <p>Veja o que outros clientes estão dizendo sobre nós</p>
               </div>
-            ) : (
-              reviews.map((review, index) => (
-                <ReviewCard key={review.id} review={review} delay={index} />
-              ))
-            )}
+              <div className={styles.avaliacoesGrid}>
+                {reviews.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <i className="fas fa-comment-slash"></i>
+                    <p>Nenhuma avaliação ainda. Seja o primeiro a avaliar!</p>
+                  </div>
+                ) : (
+                  reviews.map((review, index) => (
+                    <ReviewCard key={review.id} review={review} delay={index} />
+                  ))
+                )}
+              </div>
+            </div>
+          </section>
+        </div>
+        
+        {/* Toast Notification */}
+        {toast.show && (
+          <div className={`${styles.toast} ${styles[toast.type]} ${styles.show}`}>
+            <i className={toast.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle'}></i>
+            <span>{toast.message}</span>
           </div>
-        </div>
-      </section>
-      
-      {/* Toast Notification */}
-      {toast.show && (
-        <div className={`${styles.toast} ${styles[toast.type]} ${styles.show}`}>
-          <i className={toast.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle'}></i>
-          <span>{toast.message}</span>
-        </div>
-      )}
+        )}
 
+      </div>
     </div>
   );
 }

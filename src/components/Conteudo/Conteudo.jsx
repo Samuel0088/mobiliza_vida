@@ -101,7 +101,7 @@ const Conteudo = () => {
           <img
             src={Onibus}
             alt="Ônibus de transporte público"
-            className="w-11/12 max-w-[320px] md:max-w-[350px] lg:w-full lg:max-w-[520px]"
+            className="w-11/12 max-w-[320px] md:max-w-[350px] lg:w-full lg:max-w-[520px] mb-[-30px]"
           />
         </div>
       </div>

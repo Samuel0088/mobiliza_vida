@@ -130,144 +130,165 @@ export default function BusMap() {
   const filteredLines = selectedCompany ? BUS_LINES[selectedCompany] : {};
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        overflowX: "hidden",
-        background: "#f3f4f6",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "1rem",
-        boxSizing: "border-box",
-        marginBottom: "100px",
-      }}
-    >
-      {/* WRAPPER flexível */}
+    <>
+      {/* CSS para mudar layout no mobile */}
+      <style>{`
+        .wrapper {
+          display: flex;
+          flex-direction: row; /* desktop padrão */
+          flex: 1;
+          max-width: 1400px;
+          height: 100%;
+          gap: 1rem;
+        }
+        @media (max-width: 768px) {
+          .wrapper {
+            flex-direction: column; /* mobile: painel em cima, mapa embaixo */
+          }
+          .panel {
+            max-height: 40vh;
+            overflow-y: auto;
+          }
+          .map {
+            min-height: 300px;
+            flex: none;
+          }
+        }
+      `}</style>
+
       <div
         style={{
+          height: "100vh",
+          width: "100vw",
+          overflowX: "hidden",
+          background: "#f3f4f6",
           display: "flex",
-          flexDirection: "row",
-          flex: 1,
-          maxWidth: "1400px",
-          height: "100%",
-          gap: "1rem",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "1rem",
+          boxSizing: "border-box",
+          marginBottom: "100px",
         }}
-        className="flex-col md:flex-row" // ← mobile em coluna, desktop em linha
       >
-        {/* PAINEL (fica em cima no mobile) */}
-        <div
-          style={{
-            flex: 1,
-            padding: "1.5rem",
-            background: "#fff",
-            borderRadius: "12px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            overflowY: "auto",
-          }}
-        >
-          <h2 className="text-2xl font-bold mb-4">Mapa em tempo real</h2>
-          <p className="mb-4 text-gray-700">
-            Este mapa mostra a posição do ônibus em tempo real, indicando sua
-            distância e tempo estimado até o destino.
-          </p>
-
-          {/* Empresa */}
-          <div style={{ marginBottom: "1.5rem", width: "100%" }}>
-            <label className="block text-sm font-medium">
-              Selecione a empresa:
-            </label>
-            <select
-              value={selectedCompany}
-              onChange={(e) => {
-                setSelectedCompany(e.target.value);
-                setSelectedLine("");
-              }}
-              className="w-full border border-gray-300 rounded-md shadow-sm p-2 cursor-pointer"
-            >
-              <option value="">Selecione a empresa</option>
-              <option value="SOU">SOU</option>
-              <option value="EMTU">EMTU</option>
-            </select>
-          </div>
-
-          {/* Linha */}
-          {selectedCompany && (
-            <LineSelect
-              busLines={filteredLines}
-              selectedLine={selectedLine}
-              setSelectedLine={setSelectedLine}
-            />
-          )}
-
-          {/* Info rota */}
-          {selectedLine && (
-            <div className="mt-6 border p-4 rounded bg-gray-50 w-full">
-              <h3 className="font-bold mb-2">
-                {selectedLine} - {filteredLines[selectedLine].name}
-              </h3>
-              <div>
-                <strong>Origem:</strong> {filteredLines[selectedLine].origin}
-              </div>
-              <div>
-                <strong>Destino:</strong> {filteredLines[selectedLine].destination}
-              </div>
-              {routeInfo && (
-                <>
-                  <div>
-                    <strong>Distância:</strong> {routeInfo.distance}
-                  </div>
-                  <div>
-                    <strong>Tempo estimado:</strong> {routeInfo.duration}
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* MAPA (fica embaixo no mobile) */}
-        <div
-          style={{
-            flex: 2,
-            borderRadius: "12px",
-            overflow: "hidden",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            background: "#fff",
-            minHeight: "300px",
-          }}
-        >
-          <MapContainer
-            center={[-22.73, -47.33]}
-            zoom={13}
-            style={{ height: "100%", width: "100%" }}
+        {/* WRAPPER */}
+        <div className="wrapper">
+          {/* PAINEL */}
+          <div
+            className="panel"
+            style={{
+              flex: 1,
+              padding: "1.5rem",
+              background: "#fff",
+              borderRadius: "12px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              overflowY: "visible", // padrão desktop (vai ser overriden no mobile pelo CSS)
+            }}
           >
-            <TileLayer
-              url="http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-              attribution="&copy; <a href='https://www.google.com/maps'>Google Maps</a>"
-            />
-            {selectedLine &&
-              filteredLines[selectedLine].coordinates.map((pos, idx) => (
-                <Marker key={idx} position={pos}>
-                  <Popup>
-                    {idx === 0
-                      ? "Origem"
-                      : idx === filteredLines[selectedLine].coordinates.length - 1
-                      ? "Destino"
-                      : "Parada"}
-                  </Popup>
-                </Marker>
-              ))}
-            {selectedLine && (
-              <Routing
-                coords={filteredLines[selectedLine].coordinates}
-                setRouteInfo={setRouteInfo}
+            <h2 className="text-2xl font-bold mb-4">Mapa em tempo real</h2>
+            <p className="mb-4 text-gray-700">
+              Este mapa mostra a posição do ônibus em tempo real, indicando sua
+              distância e tempo estimado até o destino.
+            </p>
+
+            {/* Empresa */}
+            <div style={{ marginBottom: "1.5rem", width: "100%" }}>
+              <label className="block text-sm font-medium">
+                Selecione a empresa:
+              </label>
+              <select
+                value={selectedCompany}
+                onChange={(e) => {
+                  setSelectedCompany(e.target.value);
+                  setSelectedLine("");
+                }}
+                className="w-full border border-gray-300 rounded-md shadow-sm p-2 cursor-pointer"
+              >
+                <option value="">Selecione a empresa</option>
+                <option value="SOU">SOU</option>
+                <option value="EMTU">EMTU</option>
+              </select>
+            </div>
+
+            {/* Linha */}
+            {selectedCompany && (
+              <LineSelect
+                busLines={filteredLines}
+                selectedLine={selectedLine}
+                setSelectedLine={setSelectedLine}
               />
             )}
-          </MapContainer>
+
+            {/* Info rota */}
+            {selectedLine && (
+              <div className="mt-6 border p-4 rounded bg-gray-50 w-full">
+                <h3 className="font-bold mb-2">
+                  {selectedLine} - {filteredLines[selectedLine].name}
+                </h3>
+                <div>
+                  <strong>Origem:</strong> {filteredLines[selectedLine].origin}
+                </div>
+                <div>
+                  <strong>Destino:</strong> {filteredLines[selectedLine].destination}
+                </div>
+                {routeInfo && (
+                  <>
+                    <div>
+                      <strong>Distância:</strong> {routeInfo.distance}
+                    </div>
+                    <div>
+                      <strong>Tempo estimado:</strong> {routeInfo.duration}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* MAPA */}
+          <div
+            className="map"
+            style={{
+              flex: 2,
+              borderRadius: "12px",
+              overflow: "hidden",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              background: "#fff",
+              minHeight: "auto", // padrão desktop (será sobrescrito no mobile pelo CSS)
+              height: "100%",
+              zIndex: "10"
+            }}
+          >
+            <MapContainer
+              center={[-22.73, -47.33]}
+              zoom={13}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer
+                url="http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+                attribution="&copy; <a href='https://www.google.com/maps'>Google Maps</a>"
+              />
+              {selectedLine &&
+                filteredLines[selectedLine].coordinates.map((pos, idx) => (
+                  <Marker key={idx} position={pos}>
+                    <Popup>
+                      {idx === 0
+                        ? "Origem"
+                        : idx === filteredLines[selectedLine].coordinates.length - 1
+                        ? "Destino"
+                        : "Parada"}
+                    </Popup>
+                  </Marker>
+                ))}
+              {selectedLine && (
+                <Routing
+                  coords={filteredLines[selectedLine].coordinates}
+                  setRouteInfo={setRouteInfo}
+                />
+              )}
+            </MapContainer>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

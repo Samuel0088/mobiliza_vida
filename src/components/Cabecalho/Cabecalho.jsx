@@ -1,3 +1,4 @@
+// Cabecalho.tsx
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -14,10 +15,7 @@ const Cabecalho = () => {
     navigate("/login");
   };
 
-  // Se não estiver logado, não renderiza o cabeçalho
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   const links = [
     { path: "/home", label: "Home" },
@@ -30,7 +28,7 @@ const Cabecalho = () => {
 
   return (
     <header
-      className="w-full pt-7 pb-[150px]"
+      className="w-full pt-7 pb-20 sm:pb-[100px] lg:pb-[150px]"
       style={{
         backgroundImage:
           "linear-gradient(to bottom, #bfdbfe 0%, #dbeafe 30%, #eff6ff 50%, #f8f9fa 100%)",
@@ -113,13 +111,11 @@ const Cabecalho = () => {
 
             {/* Menu lateral */}
             <div className="ml-auto w-72 h-full bg-[#0B1629] text-white flex flex-col transform transition-transform duration-300 ease-in-out">
-              {/* Cabeçalho - agora só com nome */}
               <div className="flex items-center justify-between p-4 bg-[#111B2E] border-b border-gray-700">
                 <span className="font-bold text-lg">Mobiliza Vida</span>
                 <button onClick={() => setMenuAtivo(false)}>✕</button>
               </div>
 
-              {/* Usuário */}
               <div className="flex items-center gap-2 p-4 bg-blue-900 border-b border-gray-700">
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-yellow-500 text-blue-900 font-bold">
                   {user.name?.charAt(0).toUpperCase()}
@@ -127,7 +123,6 @@ const Cabecalho = () => {
                 <span>Olá, {user.name}</span>
               </div>
 
-              {/* Opções */}
               <ul className="flex flex-col p-4 space-y-3">
                 {links.map((link) => (
                   <li key={link.path}>
@@ -147,7 +142,6 @@ const Cabecalho = () => {
                 ))}
               </ul>
 
-              {/* Botão sair */}
               <div className="mt-auto p-4 border-t border-gray-700">
                 <button
                   onClick={() => {
@@ -160,7 +154,6 @@ const Cabecalho = () => {
                 </button>
               </div>
 
-              {/* Rodapé */}
               <div className="p-4 text-center text-sm text-gray-400 bg-[#111B2E] border-t border-gray-700">
                 <p className="font-bold text-white">Mobiliza Vida</p>
                 <p>Conectando Pessoas, Movendo Cidades.</p>
