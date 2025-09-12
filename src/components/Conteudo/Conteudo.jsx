@@ -49,17 +49,21 @@ const Conteudo = () => {
     textTransform: "none",
   };
 
+  // calcula o tamanho da maior palavra
+  const maxWordLength = Math.max(...words.map((w) => w.length));
+
   return (
     <main
       className={`${style.Conteudo} font-poppins relative px-2 md:px-6 lg:px-24`}
       style={poppinsInline}
     >
       {/* Slogan à esquerda e ônibus à direita */}
-      <div className="flex flex-col lg:flex-row items-center mx-auto mt-[-100px] gap-y-6 lg:gap-x-16 max-w-7xl">
-        {/* Texto */}
-        <div className="flex-1 max-w-xl min-w-0 md:min-w-[320px] text-center md:text-left mb-8 lg:mb-0">
+      <div className="flex flex-col lg:flex-row items-center justify-center mx-auto mt-[-98px] lg:mt-[-300px] mb-[50px] gap-y-6 lg:gap-x-16 max-w-7xl">
+        
+        {/* Slogan */}
+        <div className="flex-1 max-w-xl min-w-0 text-center lg:text-left mb-8 lg:mb-0">
           <h1
-            className="normal-case font-bold text-3xl md:text-5xl leading-snug"
+            className="normal-case font-bold text-3xl md:text-5xl leading-snug lg:leading-[1.4]"
             style={poppinsInline}
           >
             Conecte pessoas e
@@ -68,20 +72,15 @@ const Conteudo = () => {
             <br />
             <span className="whitespace-nowrap">
               com soluções&nbsp;
-              <br className="inline lg:hidden" />
+              <br className="block lg:hidden" />
               <span
-                className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-block relative lg:whitespace-nowrap`}
+                className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-flex items-center`}
                 aria-live="polite"
                 aria-atomic="true"
-                style={{ width: `${words.reduce((a, b) => (a.length > b.length ? a : b)).length}ch`, minWidth: "6ch", textAlign: 'center' }}
+                style={{ minWidth: `${maxWordLength}ch` }} // espaço fixo
               >
-                <span className="inline-block w-full text-center md:text-left">
-                  {displayedWord}
-                  <span className="animate-pulse">|</span>
-                </span>
-                <span className="invisible absolute">
-                  {words.reduce((a, b) => (a.length > b.length ? a : b))}
-                </span>
+                <span>{displayedWord}</span>
+                <span className="animate-pulse">|</span>
               </span>
             </span>
           </h1>
@@ -98,11 +97,11 @@ const Conteudo = () => {
         </div>
 
         {/* Imagem */}
-        <div className="w-full lg:w-[40%] flex justify-center lg:justify-end">
+        <div className="w-full lg:w-[40%] flex justify-center lg:justify-center">
           <img
             src={Onibus}
             alt="Ônibus de transporte público"
-            className="w-2/3 max-w-[250px] md:w-2/3 md:max-w-[350px] lg:w-full lg:max-w-[400px]"
+            className="w-11/12 max-w-[320px] md:max-w-[350px] lg:w-full lg:max-w-[520px]"
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CabecalhoEMTU from '../components/CabecalhoEMTU/CabecalhoEMTU.jsx';
-import { Footer } from '../components/Footer/Footer.jsx';
+
 
 function LinhaEMTU() {
   const [origem, setOrigem] = useState('');
@@ -92,8 +92,7 @@ function LinhaEMTU() {
 
   return (
     <>
-      <CabecalhoEMTU />
-      <div style={{ paddingTop: '80px', paddingBottom: '40px', minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      <div style={{paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#f9fafb', marginTop: '-50px'}}>
         <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 20px' }}>
           
           <header style={{ marginBottom: '40px' }}>
@@ -325,7 +324,6 @@ function LinhaEMTU() {
         </div>
       </div>
 
-      <Footer />
     </>
   );
 }

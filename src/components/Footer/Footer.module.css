@@ -1,4 +1,4 @@
-footer {
+.footer {
   background-color: #EBEBEC;
   border-top: 1px solid #e2e8f0;
   padding: 2rem 0;
@@ -6,6 +6,8 @@ footer {
   display: flex;
   flex-direction: column;
   font-family: 'Inter', sans-serif;
+  width: 100%; /* Garante 100% de largura */
+  box-sizing: border-box; /* Inclui padding na largura */
 }
 
 .container {
@@ -153,6 +155,10 @@ footer {
 
 /* MOBILE */
 @media (max-width: 640px) {
+  .footer {
+    padding: 1.5rem 0; /* Reduz padding no mobile */
+  }
+  
   .container {
     flex-direction: column;
     gap: 1.5rem;
@@ -232,8 +238,9 @@ footer {
   }
 }
 
+/* Ajuste para telas grandes */
 @media (min-width: 1400px) {
-  footer {
+  .footer {
     margin-top: -150px;
   }
 }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CabecalhoSou from '../components/CabecalhoSou/CabecalhoSou.jsx';
-import { Footer } from '../components/Footer/Footer.jsx';
 
 function LinhaSou() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,8 +50,7 @@ function LinhaSou() {
 
   return (
     <>
-      <CabecalhoSou />
-      <div style={{ paddingTop: '80px', paddingBottom: '40px', minHeight: '100vh', backgroundColor: '#f9fafb' }}>
+      <div style={{paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#f9fafb', marginTop: '-50px'}}>
         <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 20px' }}>
           
           <header style={{ marginBottom: '40px' }}>
@@ -248,10 +246,8 @@ function LinhaSou() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
 
-export default  LinhaSou ;
+export default LinhaSou;

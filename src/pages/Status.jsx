@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styles from './Status.module.css';
-import CabecalhoSou from '../components/CabecalhoSou/CabecalhoSou.jsx';
 import { Footer } from '../components/Footer/Footer.jsx';
 
 export default function RatingApp() {
@@ -105,8 +104,6 @@ export default function RatingApp() {
 
   return (
     <div className={styles.app}>
-      {/* Header */}
-      <CabecalhoSou />
 
       {/* Hero Section */}
       <section className={styles.hero}>
@@ -228,8 +225,6 @@ export default function RatingApp() {
         </div>
       )}
 
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

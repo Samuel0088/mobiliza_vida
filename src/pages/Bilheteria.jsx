@@ -158,8 +158,7 @@ cvv: ''
 
   return (
   <>
-    <CabecalhoBilheteria />
-    <div className="bilheteria-container">
+    <div className="bilheteria-container mt-[-50px]">
       <main className="main-content">
         {/* Indicador de progresso */}
         <div className="progresso">
@@ -431,7 +430,7 @@ cvv: ''
         
         .bilheteria-container {
           min-height: 100vh;
-          background-color:#2563eb;
+          background-color: #f3f4f6;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           color: #333;
         }
@@ -1085,87 +1084,82 @@ cvv: ''
             gap: 1rem;
           }
           
-          .btn-voltar, .btn-avancar {
-            width: 100%;
+          .bilheteria-container {
+            padding: 0.5rem 0;
+          }
+          
+          .main-content {
+            padding: 0 0.5rem;
+          }
+          
+          .etapa-container {
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          
+          .etapa-container h2 {
+            font-size: 1.3rem;
+          }
+          
+          .opcoes-empresa {
+            grid-template-columns: 1fr;
+          }
+          
+          .opcoes-pagamento {
+            grid-template-columns: 1fr;
+          }
+          
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+          
+          .botoes-navegacao {
+            flex-direction: column;
+          }
+          
+          .linha-info h3 {
+            font-size: 0.9rem;
+          }
+          
+          .info-motorista {
+            font-size: 0.75rem;
+          }
+          
+          .codigo {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            padding: 0.8rem;
+          }
+          
+          .qrcode-fake {
+            width: 150px;
+            height: 150px;
           }
         }
-           @media (max-width: 768px) {
-            .bilheteria-container {
-              padding: 0.5rem 0;
-            }
-            
-            .main-content {
-              padding: 0 0.5rem;
-            }
-            
-            .etapa-container {
-              padding: 1.2rem;
-              margin-bottom: 1rem;
-            }
-            
-            .etapa-container h2 {
-              font-size: 1.3rem;
-            }
-            
-            .opcoes-empresa {
-              grid-template-columns: 1fr;
-            }
-            
-            .opcoes-pagamento {
-              grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-              grid-template-columns: 1fr;
-            }
-            
-            .botoes-navegacao {
-              flex-direction: column;
-            }
-            
-            .linha-info h3 {
-              font-size: 0.9rem;
-            }
-            
-            .info-motorista {
-              font-size: 0.75rem;
-            }
-            
-            .codigo {
-              font-size: 1.5rem;
-              letter-spacing: 2px;
-              padding: 0.8rem;
-            }
-            
-            .qrcode-fake {
-              width: 150px;
-              height: 150px;
-            }
+        @media (max-width: 480px) {
+          .etapa-container {
+            padding: 1rem;
           }
-          @media (max-width: 480px) {
-            .etapa-container {
-              padding: 1rem;
-            }
-            
-            .opcao-linha {
-              flex-direction: column;
-              text-align: center;
-            }
-            
-            .linha-numero {
-              margin-right: 0;
-              margin-bottom: 0.5rem;
-            }
-            
-            .linha-selecionador {
-              margin-top: 0.5rem;
-            }
-            
-            .codigo {
-              font-size: 1.2rem;
-              padding: 0.6rem;
-            }
+          
+          .opcao-linha {
+            flex-direction: column;
+            text-align: center;
           }
+          
+          .linha-numero {
+            margin-right: 0;
+            margin-bottom: 0.5rem;
+          }
+          
+          .linha-selecionador {
+            margin-top: 0.5rem;
+          }
+          
+          .codigo {
+            font-size: 1.2rem;
+            padding: 0.6rem;
+          }
+        }
       `}</style>
     </div>
  </> 
