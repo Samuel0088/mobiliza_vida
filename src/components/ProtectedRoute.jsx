@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 export default function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   
-  console.log('ProtectedRoute - user:', user, 'loading:', loading); // ← DEBUG
+  console.log('ProtectedRoute - user:', user, 'loading:', loading); 
 
   if (loading) {
     return <div className="loading">Carregando...</div>;

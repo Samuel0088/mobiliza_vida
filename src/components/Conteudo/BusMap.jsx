@@ -4,9 +4,9 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-routing-machine";
-import busImg from "../../assets/Imagens/bus.png"; // ajuste caminho se necessário
+import busImg from "../../assets/Imagens/bus.png"; 
 
-// Corrige ícones do Leaflet padrão
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -17,14 +17,14 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-// Ícone do ônibus (custom)
+
 const busIcon = new L.Icon({
   iconUrl: busImg,
   iconSize: [40, 40],
   iconAnchor: [20, 20],
 });
 
-// ---------------- EXEMPLO DE LOCALIZAÇÕES ----------------
+
 const LOCATIONS = {
   TERMINAL: [-22.73, -47.32],
   JARDIM_BRASIL: [-22.743, -47.333],
@@ -51,7 +51,7 @@ const LOCATIONS = {
   RIO_CLARO: [-22.41, -47.56],
 };
 
-// ---------------- TODAS AS LINHAS (SOU + EMTU) ----------------
+
 const BUS_LINES = {
   SOU: {
     "102": { name: "Jardim Brasil ↔ Novo Mundo", origin: "Jardim Brasil", destination: "Novo Mundo", coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.NOVO_MUNDO] },
@@ -100,10 +100,10 @@ const BUS_LINES = {
   },
 };
 
-// ---------------- UTIL: distância haversine (m) ----------------
+
 function haversineMeters(a, b) {
   const toRad = (v) => (v * Math.PI) / 180;
-  const R = 6371000; // metros
+  const R = 6371000; 
   const dLat = toRad(b[0] - a[0]);
   const dLon = toRad(b[1] - a[1]);
   const lat1 = toRad(a[0]);
@@ -116,7 +116,7 @@ function haversineMeters(a, b) {
   return R * C;
 }
 
-// ---------------- COMPONENTE ROTEAMENTO (usa L.Routing.control) ----------------
+
 function Routing({ coords, setRouteInfo, setRouteCoords }) {
   const map = useMap();
 
@@ -139,14 +139,14 @@ function Routing({ coords, setRouteInfo, setRouteCoords }) {
   const summary = route.summary;
   const fullCoords = route.coordinates.map((c) => [c.lat, c.lng]);
 
-  // Distância total em km
+  
   const distanceKm = summary.totalDistance / 1000;
 
-  // 🚍 velocidade média de ônibus urbano (15 km/h = 0.25 km/min)
+  
   const busSpeedKmh = 15;
   const busSpeedKmMin = busSpeedKmh / 60;
 
-  // tempo em minutos (distância / velocidade)
+  
   const durationMin = distanceKm / busSpeedKmMin;
 
   setRouteCoords(fullCoords);
@@ -168,18 +168,18 @@ function Routing({ coords, setRouteInfo, setRouteCoords }) {
   return null;
 }
 
-// ---------------- ÔNIBUS ANIMADO (segue a geometria completa da rota) ----------------
+
 function AnimatedBus({ routeCoords, speedKmh = 10 }) {
   const [position, setPosition] = useState(routeCoords ? routeCoords[0] : null);
-  const indexRef = useRef(0);        // índice do ponto de partida do segmento atual
-  const offsetRef = useRef(0);       // distância percorrida no segmento atual (m)
+  const indexRef = useRef(0);        
+  const offsetRef = useRef(0);       
   const rafRef = useRef(null);
   const lastTimeRef = useRef(null);
 
   useEffect(() => {
     if (!routeCoords || routeCoords.length < 2) return;
 
-    // velocidade em m/s (padrão 10 km/h -> ~2.78 m/s)
+    
     const speed = (speedKmh * 1000) / 3600;
 
     indexRef.current = 0;
@@ -188,37 +188,37 @@ function AnimatedBus({ routeCoords, speedKmh = 10 }) {
     lastTimeRef.current = performance.now();
 
     function step(time) {
-      const dt = (time - lastTimeRef.current) / 1000; // segundos desde último frame
+      const dt = (time - lastTimeRef.current) / 1000; 
       lastTimeRef.current = time;
 
       let i = indexRef.current;
-      // ponto atual e próximo ponto
+      
       let a = routeCoords[i];
       let b = routeCoords[(i + 1) % routeCoords.length];
 
-      // distância total do segmento (m)
+      
       let segDist = haversineMeters(a, b);
 
-      // distância percorrida adicional neste frame (m)
+      
       let move = speed * dt;
 
       offsetRef.current += move;
 
-      // avançar de segmento se necessário (loop automático)
+      
       while (offsetRef.current >= segDist) {
         offsetRef.current -= segDist;
         i = (i + 1) % routeCoords.length;
         a = routeCoords[i];
         b = routeCoords[(i + 1) % routeCoords.length];
         segDist = haversineMeters(a, b);
-        // se segmento com dist 0 (duplicado), continue
+        
         if (segDist === 0) {
           offsetRef.current = 0;
           break;
         }
       }
 
-      // interpolação entre a e b
+      
       const t = segDist === 0 ? 0 : offsetRef.current / segDist;
       const lat = a[0] + (b[0] - a[0]) * t;
       const lng = a[1] + (b[1] - a[1]) * t;
@@ -244,7 +244,7 @@ function AnimatedBus({ routeCoords, speedKmh = 10 }) {
   );
 }
 
-// ---------------- DROPDOWN DE LINHAS ----------------
+
 function LineSelect({ busLines, selectedLine, setSelectedLine }) {
   const [open, setOpen] = useState(false);
 
@@ -284,16 +284,16 @@ function LineSelect({ busLines, selectedLine, setSelectedLine }) {
   );
 }
 
-// ---------------- MAPA PRINCIPAL ----------------
+
 export default function BusMap() {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedLine, setSelectedLine] = useState("");
   const [routeInfo, setRouteInfo] = useState(null);
-  const [routeCoords, setRouteCoords] = useState(null); // geometria completa da rota (muitos pontos)
+  const [routeCoords, setRouteCoords] = useState(null); 
 
   const filteredLines = selectedCompany ? BUS_LINES[selectedCompany] : {};
 
-  // Quando troca de linha, limpa info/rota
+  
   useEffect(() => {
     setRouteInfo(null);
     setRouteCoords(null);
@@ -331,7 +331,7 @@ export default function BusMap() {
         }}
       >
         <div className="wrapper">
-          {/* PAINEL */}
+          {}
           <div
             className="panel"
             style={{
@@ -349,7 +349,7 @@ export default function BusMap() {
               seguindo exatamente a rota calculada (linha azul).
             </p>
 
-            {/* Empresa */}
+            {}
             <div style={{ marginBottom: "1.5rem", width: "100%" }}>
               <label className="block text-sm font-medium">Selecione a empresa:</label>
               <select
@@ -366,21 +366,21 @@ export default function BusMap() {
               </select>
             </div>
 
-            {/* Linha */}
+            {}
             {selectedCompany && (
               <LineSelect
                 busLines={filteredLines}
                 selectedLine={selectedLine}
                 setSelectedLine={(line) => {
                   setSelectedLine(line);
-                  // ao escolher linha, informe para limpar rota antiga
+                  
                   setRouteInfo(null);
                   setRouteCoords(null);
                 }}
               />
             )}
 
-            {/* Info rota */}
+            {}
             {selectedLine && filteredLines[selectedLine] && (
               <div className="mt-6 border p-4 rounded bg-gray-50 w-full">
                 <h3 className="font-bold mb-2">
@@ -398,7 +398,7 @@ export default function BusMap() {
             )}
           </div>
 
-          {/* MAPA */}
+          {}
           <div
             className="map"
             style={{
@@ -418,8 +418,7 @@ export default function BusMap() {
                 attribution="&copy; <a href='https://www.google.com/maps'>Google Maps</a>"
               />
 
-              {/* Se selecionou linha, adiciona roteamento (que calcula polyline completa)
-                  e quando a rota for resolvida Routing chamará setRouteCoords(...) */}
+              {}
               {selectedLine && filteredLines[selectedLine] && (
                 <Routing
                   coords={filteredLines[selectedLine].coordinates}
@@ -428,7 +427,7 @@ export default function BusMap() {
                 />
               )}
 
-              {/* marcador de origem/destino (waypoints iniciais) */}
+              {}
               {selectedLine &&
                 filteredLines[selectedLine] &&
                 filteredLines[selectedLine].coordinates.map((pos, idx) => (
@@ -439,7 +438,7 @@ export default function BusMap() {
                   </Marker>
                 ))}
 
-              {/* Ônibus animado: segue routeCoords (geometria completa) */}
+              {}
               {routeCoords && routeCoords.length > 0 && (
                 <AnimatedBus routeCoords={routeCoords} speedKmh={10} />
               )}

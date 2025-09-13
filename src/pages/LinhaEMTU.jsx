@@ -94,7 +94,7 @@ function LinhaEMTU() {
               Empresa Metropolitana de Transportes Urbanos - Conexão entre municípios
             </p>
             
-            {/* Container dos selects */}
+            {}
             <div className="container-selects">
               <div>
                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#374151' }}>
@@ -169,7 +169,7 @@ function LinhaEMTU() {
             padding: '24px',
             border: '1px solid #e5e7eb'
           }}>
-            {/* Container do título e contador */}
+            {}
             <div className="container-titulo-contador">
               <h3 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', marginBottom: '12px' }}>
                 {origem && destino ? `Linhas de ${formatarNomeCidade(origem)} para ${formatarNomeCidade(destino)}` : 'Selecione origem e destino'}
@@ -281,7 +281,7 @@ function LinhaEMTU() {
             )}
           </div>
 
-          {/* Informações adicionais */}
+          {}
           <div className="container-informacoes">
             <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb' }}>
               <div style={{ color: '#2563eb', marginBottom: '12px' }}>
@@ -318,7 +318,7 @@ function LinhaEMTU() {
 
       <style>
         {`
-          /* Selects responsivos */
+          
           .container-selects {
             display: grid;
             grid-template-columns: 1fr;
@@ -331,7 +331,7 @@ function LinhaEMTU() {
             }
           }
 
-          /* Título + contador */
+          
           .container-titulo-contador {
             display: flex;
             flex-direction: column;
@@ -348,7 +348,7 @@ function LinhaEMTU() {
             }
           }
 
-          /* Informações extras */
+          
           .container-informacoes {
             display: grid;
             grid-template-columns: 1fr;
@@ -368,7 +368,6 @@ function LinhaEMTU() {
 }
 
 export default LinhaEMTU;
-
 
 
 

@@ -11,10 +11,10 @@ const Conteudo = () => {
   const [wordIndex, setWordIndex] = useState(0);
   const [typing, setTyping] = useState(true);
 
-  // referencia para o wrapper do mapa
+  
   const mapRef = useRef(null);
 
-  // efeito de digitação
+  
   useEffect(() => {
     if (!typing) return;
     let i = 0;
@@ -31,7 +31,7 @@ const Conteudo = () => {
     return () => clearInterval(interval);
   }, [typing, wordIndex]);
 
-  // efeito de apagar
+  
   useEffect(() => {
     if (typing) return;
     let i = words[wordIndex].length;
@@ -52,27 +52,27 @@ const Conteudo = () => {
     textTransform: "none",
   };
 
-  // calcula o tamanho da maior palavra
+  
   const maxWordLength = Math.max(...words.map((w) => w.length));
 
-  // função robusta de scroll para o mapa
+  
   const scrollToMap = () => {
     const el = mapRef.current;
     if (!el) return;
 
-    // tentativa padrão
+    
     try {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     } catch (err) {
-      // continua para fallback
+      
     }
 
-    // fallback: calcula posição e aplica offset (ajuste headerOffset se tiver header fixo)
+    
     const rect = el.getBoundingClientRect();
     const scrollTop = window.scrollY || window.pageYOffset;
     const elementTop = rect.top + scrollTop;
-    const headerOffset = 80; // <--- ajuste esse valor se tiver header fixo ou margens negativas
+    const headerOffset = 80; 
     window.scrollTo({
       top: elementTop - headerOffset,
       behavior: "smooth",
@@ -84,10 +84,10 @@ const Conteudo = () => {
       className={`${style.Conteudo} font-poppins relative px-2 md:px-6 lg:px-24`}
       style={poppinsInline}
     >
-      {/* Slogan à esquerda e ônibus à direita */}
+      {}
       <div className="flex flex-col lg:flex-row items-center justify-center mx-auto mt-[-98px] lg:mt-[-300px] mb-[50px] gap-y-6 lg:gap-x-16 max-w-7xl">
         
-        {/* Slogan */}
+        {}
         <div className="flex-1 max-w-xl min-w-0 text-center lg:text-left mb-8 lg:mb-0">
           <h1
             className="normal-case font-bold text-3xl md:text-5xl leading-snug lg:leading-[1.4]"
@@ -104,7 +104,7 @@ const Conteudo = () => {
                 className={`${colors[wordIndex]} font-bold text-4xl md:text-5xl inline-flex items-center`}
                 aria-live="polite"
                 aria-atomic="true"
-                style={{ minWidth: `${maxWordLength}ch` }} // espaço fixo
+                style={{ minWidth: `${maxWordLength}ch` }} 
               >
                 <span>{displayedWord}</span>
                 <span className="animate-pulse">|</span>
@@ -124,7 +124,7 @@ const Conteudo = () => {
           </div>
         </div>
 
-        {/* Imagem */}
+        {}
         <div className="w-full lg:w-[40%] flex justify-center lg:justify-center">
           <img
             src={Onibus}
@@ -137,7 +137,7 @@ const Conteudo = () => {
       <br />
       <br />
 
-      {/* WRAPPER DO MAPA com ref e id */}
+      {}
       <div ref={mapRef} id="mapa">
         <BusMap />
       </div>

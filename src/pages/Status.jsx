@@ -106,7 +106,7 @@ export default function RatingApp() {
     <div className='mt-[-100px]'>
       <div className={styles.app}>
 
-        {/* Hero Section */}
+        {}
         <section className={styles.hero}>
           <div className={styles.container}>
             <div className={styles.heroContent}>
@@ -116,7 +116,7 @@ export default function RatingApp() {
           </div>
         </section>
         
-        {/* Avaliação Form */}
+        {}
         <section className={styles.avaliacao}>
           <div className={styles.container}>
             <div className={styles.sectionTitle}>
@@ -196,7 +196,7 @@ export default function RatingApp() {
           </div>
         </section>
         
-        {/* Avaliações */}
+        {}
         <div className='mb-[100px]'>
           <section className={styles.avaliacoes}>
             <div className={styles.container}>
@@ -220,7 +220,7 @@ export default function RatingApp() {
           </section>
         </div>
         
-        {/* Toast Notification */}
+        {}
         {toast.show && (
           <div className={`${styles.toast} ${styles[toast.type]} ${styles.show}`}>
             <i className={toast.type === 'error' ? 'fas fa-exclamation-circle' : 'fas fa-check-circle'}></i>

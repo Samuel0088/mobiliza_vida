@@ -16,17 +16,17 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        {/* Cabeçalho fixo para todas as páginas */}
+        {}
         <Cabecalho />
 
         <Routes>
           <Route path="/" element={<Navigate to="/Home" />} />
 
-          {/* Rotas públicas */}
+          {}
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
 
-          {/* Rotas protegidas */}
+          {}
           <Route
             path="/bilheteria"
             element={
@@ -77,7 +77,7 @@ function App() {
           />
         </Routes>
 
-        {/* Footer fixo */}
+        {}
         <Footer />
       </Router>
     </AuthProvider>

@@ -3,7 +3,7 @@ import Logo_branca from '../../assets/Imagens/Logo_branca.png';
 
 const SegundoCabecalho = () => {
     useEffect(() => {
-        // ✅ CORREÇÃO: Acesse o DOM apenas após o componente ser renderizado
+        
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -14,12 +14,12 @@ const SegundoCabecalho = () => {
 
             menuButton.addEventListener('click', handleClick);
 
-            // ✅ Importante: Remover o event listener quando o componente for desmontado
+            
             return () => {
                 menuButton.removeEventListener('click', handleClick);
             };
         }
-    }, []); // ✅ Array vazio = executa apenas uma vez após a renderização
+    }, []); 
 
     return (
         <div className="bg-blue-900 text-white">

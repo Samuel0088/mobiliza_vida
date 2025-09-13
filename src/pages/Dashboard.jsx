@@ -1,4 +1,4 @@
-// src/components/Dashboard.jsx
+
 import { useAuth } from "../context/AuthContext";
 import { Cabecalho } from "../components/Cabecalho";
 
@@ -16,11 +16,11 @@ export default function Dashboard() {
     <>
       <Cabecalho />
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 pt-20">
-        {/* Background effects */}
+        {}
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/20 via-transparent to-transparent"></div>
         
         <div className="relative z-10 max-w-7xl mx-auto p-6">
-          {/* Welcome Header */}
+          {}
           <div className="glass rounded-3xl p-8 mb-8 text-center">
             <h1 className="text-5xl font-bold text-white mb-4">
               Olá, {user?.name}! 👋
@@ -35,7 +35,7 @@ export default function Dashboard() {
             )}
           </div>
 
-          {/* Stats Grid */}
+          {}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {stats.map((stat, index) => (
               <div key={index} className="glass rounded-2xl p-6 group hover:scale-105 transition-transform duration-300">
@@ -52,9 +52,9 @@ export default function Dashboard() {
             ))}
           </div>
 
-          {/* Main Content */}
+          {}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* User Info Card */}
+            {}
             <div className="glass rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                 <span className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 rounded-lg mr-3">👤</span>
@@ -81,7 +81,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Quick Actions */}
+            {}
             <div className="glass rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
                 <span className="bg-gradient-to-r from-green-500 to-emerald-600 p-2 rounded-lg mr-3">⚡</span>
@@ -105,7 +105,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Logout Button */}
+          {}
           <div className="text-center mt-12">
             <button
               onClick={logout}

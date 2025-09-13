@@ -16,9 +16,9 @@ const Bilheteria = () => {
     parcelas: 1
   });
 
-  // Horários para as linhas (manhã, tarde, noite)
+  
     const horariosPorLinha = {
-      // --- SOU ---
+      
       "102": ["06:00","07:30","09:00","10:30","12:00","13:30","15:00","16:30","18:00","19:30","21:00","22:30"],
       "103": ["05:45","07:15","08:45","10:15","11:45","13:15","14:45","16:15","17:45","19:15","20:45","22:15"],
       "104": ["06:15","07:45","09:15","10:45","12:15","13:45","15:15","16:45","18:15","19:45","21:15","22:45"],
@@ -46,7 +46,7 @@ const Bilheteria = () => {
       "224": ["06:05","07:35","09:05","10:35","12:05","13:35","15:05","16:35","18:05","19:35","21:05","22:35"],
       "225": ["06:20","07:50","09:20","10:50","12:20","13:50","15:20","16:50","18:20","19:50","21:20","22:50"],
 
-      // --- EMTU (Americana → SBO) ---
+      
       "619": ["05:30","07:00","08:30","10:00","11:30","13:00","14:30","16:00","17:30","19:00","20:30","22:00"],
       "620": ["05:40","07:10","08:40","10:10","11:40","13:10","14:40","16:10","17:40","19:10","20:40","22:10"],
       "621": ["05:50","07:20","08:50","10:20","11:50","13:20","14:50","16:20","17:50","19:20","20:50","22:20"],
@@ -63,7 +63,7 @@ const Bilheteria = () => {
       "631": ["06:35","08:05","09:35","11:05","12:35","14:05","15:35","17:05","18:35","20:05","21:35","23:05"],
       "632": ["06:45","08:15","09:45","11:15","12:45","14:15","15:45","17:15","18:45","20:15","21:45","23:15"],
 
-      // --- SBO (Santa Bárbara → Americana) ---
+      
       "651": ["05:40","07:10","08:40","10:10","11:40","13:10","14:40","16:10","17:40","19:10","20:40","22:10"],
       "652": ["05:50","07:20","08:50","10:20","11:50","13:20","14:50","16:20","17:50","19:20","20:50","22:20"],
       "653": ["06:00","07:30","09:00","10:30","12:00","13:30","15:00","16:30","18:00","19:30","21:00","22:30"],
@@ -142,7 +142,7 @@ const Bilheteria = () => {
     ]
   };
 
-  // Função para alternar seleção de linha
+  
   const toggleLinhaSelecionada = (numeroLinha) => {
     if (linhasSelecionadas.includes(numeroLinha)) {
       setLinhasSelecionadas(linhasSelecionadas.filter(linha => linha !== numeroLinha));
@@ -151,7 +151,7 @@ const Bilheteria = () => {
     }
   };
 
-  // Função para gerar código de confirmação
+  
   const gerarCodigoConfirmacao = () => {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let codigo = '';
@@ -161,7 +161,7 @@ const Bilheteria = () => {
     return codigo;
   };
 
-  // Função para avançar etapas
+  
   const avancarEtapa = () => {
     if (etapa === 1 && empresa) {
       setEtapa(2);
@@ -173,14 +173,14 @@ const Bilheteria = () => {
     }
   };
 
-  // Função para voltar etapas
+  
   const voltarEtapa = () => {
     if (etapa > 1) {
       setEtapa(etapa - 1);
     }
   };
 
-  // Função para reiniciar o processo
+  
   const reiniciarProcesso = () => {
     setEmpresa('');
     setLinhasSelecionadas([]);
@@ -196,7 +196,7 @@ const Bilheteria = () => {
     });
   };
 
-  // Manipular mudanças nos campos do cartão
+  
   const handleCartaoChange = (e) => {
     const { name, value } = e.target;
     setDadosCartao({
@@ -205,7 +205,7 @@ const Bilheteria = () => {
     });
   };
 
-  // Formatar número do cartão
+  
   const formatarNumeroCartao = (value) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     const matches = v.match(/\d{4,16}/g);
@@ -223,7 +223,7 @@ const Bilheteria = () => {
     }
   };
 
-  // Formatar data de validade
+  
   const formatarValidade = (value) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
     
@@ -238,7 +238,7 @@ const Bilheteria = () => {
     <>
       <div className="bilheteria-container mt-[-100px]">
         <main className="main-content">
-          {/* Indicador de progresso */}
+          {}
           <div className="progresso">
             <div className={`etapa ${etapa >= 1 ? 'ativo' : ''}`}>
               <span>1</span>
@@ -258,7 +258,7 @@ const Bilheteria = () => {
             </div>
           </div>
           
-          {/* Etapa 1: Seleção de empresa */}
+          {}
           {etapa === 1 && (
             <div className="etapa-container">
               <h2>Selecione a Empresa de Ônibus</h2>
@@ -294,7 +294,7 @@ const Bilheteria = () => {
             </div>
           )}
           
-          {/* Etapa 2: Seleção de linha */}
+          {}
           {etapa === 2 && (
             <div className="etapa-container">
               <h2>Selecione a Linha - {empresa}</h2>
@@ -340,7 +340,7 @@ const Bilheteria = () => {
             </div>
           )}
           
-          {/* Etapa 3: Seleção de método de pagamento */}
+          {}
           {etapa === 3 && (
             <div className="etapa-container">
               <h2>Método de Pagamento</h2>
@@ -387,7 +387,7 @@ const Bilheteria = () => {
                 </div>
               </div>
               
-              {/* Formulário de cartão (se cartão selecionado) */}
+              {}
               {(metodoPagamento === 'credito' || metodoPagamento === 'debito') && (
                 <div className="cartao-form">
                   <h3>Dados do Cartão</h3>
@@ -464,7 +464,7 @@ const Bilheteria = () => {
                 </div>
               )}
               
-              {/* Exibir QR Code se PIX for selecionado */}
+              {}
               {metodoPagamento === 'pix' && (
                 <div className="qrcode-container">
                   <h3>Escaneie o QR Code para pagar</h3>
@@ -490,7 +490,7 @@ const Bilheteria = () => {
             </div>
           )}
           
-          {/* Etapa 4: Confirmação */}
+          {}
           {etapa === 4 && (
             <div className="etapa-container confirmacao">
               <div className="icone-confirmacao">✅</div>
@@ -536,7 +536,7 @@ const Bilheteria = () => {
         </main>
         
         <style jsx>{`
-          /* Estilos gerais */
+          
            * {
             box-sizing: border-box;
             margin: 0;
@@ -558,7 +558,7 @@ const Bilheteria = () => {
             justify-content: center;
         }
         
-        /* Conteúdo principal */
+        
         .main-content {
             width: 100%;
             max-width: 1000px;
@@ -570,7 +570,7 @@ const Bilheteria = () => {
             backdrop-filter: blur(10px);
         }
         
-        /* Progresso - design melhorado */
+        
         .progresso {
             display: flex;
             justify-content: space-between;
@@ -652,7 +652,7 @@ const Bilheteria = () => {
             font-weight: 600;
         }
         
-        /* Container das etapas */
+        
         .etapa-container {
             background-color: white;
             padding: 2.8rem;
@@ -702,7 +702,7 @@ const Bilheteria = () => {
             line-height: 1.7;
         }
         
-        /* Opções de empresa */
+        
         .opcoes-empresa {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -785,7 +785,7 @@ const Bilheteria = () => {
             font-style: italic;
         }
         
-        /* Lista de linhas */
+        
         .lista-linhas {
             max-height: 500px;
             overflow-y: auto;
@@ -793,7 +793,7 @@ const Bilheteria = () => {
             padding-right: 10px;
         }
         
-        /* Custom scrollbar */
+        
         .lista-linhas::-webkit-scrollbar {
             width: 8px;
         }
@@ -951,7 +951,7 @@ const Bilheteria = () => {
             transform: scale(1.2);
         }
         
-        /* Linhas selecionadas */
+        
         .linhas-selecionadas {
             background: linear-gradient(135deg, #eaf2f8 0%, #d4e6f1 100%);
             padding: 1.5rem;
@@ -989,7 +989,7 @@ const Bilheteria = () => {
             color: #2c3e50;
         }
         
-        /* Opções de pagamento */
+        
         .opcoes-pagamento {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1066,7 +1066,7 @@ const Bilheteria = () => {
             line-height: 1.5;
         }
         
-        /* Formulário do cartão */
+        
         .cartao-form {
             background: #f9fcff;
             padding: 2rem;
@@ -1124,7 +1124,7 @@ const Bilheteria = () => {
             transform: translateY(-2px);
         }
         
-        /* QR Code */
+        
         .qrcode-container {
             text-align: center;
             margin: 2.5rem 0;
@@ -1210,7 +1210,7 @@ const Bilheteria = () => {
             animation: pulse 2s infinite;
         }
         
-        /* Confirmação */
+        
         .confirmacao {
             text-align: center;
             padding: 3.5rem 2.5rem;
@@ -1315,7 +1315,7 @@ const Bilheteria = () => {
             margin-right: auto;
         }
         
-        /* Botões melhorados */
+        
         .botoes-navegacao {
             display: flex;
             justify-content: space-between;
@@ -1395,7 +1395,7 @@ const Bilheteria = () => {
             margin-right: 8px;
         }
         
-        /* Animações melhoradas */
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1418,7 +1418,7 @@ const Bilheteria = () => {
             100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
         }
         
-        /* Responsividade melhorada */
+        
         @media (max-width: 992px) {
             .main-content {
                 padding: 2rem;

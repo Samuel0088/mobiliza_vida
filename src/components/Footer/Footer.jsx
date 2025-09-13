@@ -7,14 +7,14 @@ import './Footer.module.css';
 const Footer = () => {
   const { user } = useAuth();
 
-  // Se não estiver logado, não renderiza o footer
+  
   if (!user) {
     return null;
   }
 
   return (
     <footer className="w-full bg-gray-100 border-t border-gray-200 mt-auto">
-      {/* Primeira seção */}
+      {}
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between">
         <div className="mb-6 md:mb-0">
           <div className="flex items-center mb-4">
@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Segunda seção (copyright) */}
+      {}
       <div className="border-t border-gray-200 py-4">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-600 text-sm mb-2 md:mb-0">

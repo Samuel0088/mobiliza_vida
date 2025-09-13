@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Verificar se há usuário logado no localStorage ao carregar
+    
     const savedUser = localStorage.getItem("currentUser");
     if (savedUser) {
       try {
@@ -30,12 +30,12 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      // Buscar usuários do localStorage
+      
       const users = JSON.parse(localStorage.getItem("users") || "[]");
       const user = users.find(u => u.email === email && u.password === password);
       
       if (user) {
-        // Remover a senha do objeto do usuário antes de salvar
+        
         const { password: _, ...userWithoutPassword } = user;
         setCurrentUser(userWithoutPassword);
         localStorage.setItem("currentUser", JSON.stringify(userWithoutPassword));
@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
 
   const loginWithGoogle = (googleData) => {
     try {
-      // Cria ou busca usuário baseado nos dados do Google
+      
       const user = {
         id: googleData.sub,
         name: googleData.name,
@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
         isGoogleUser: true
       };
       
-      // Salva no localStorage
+      
       localStorage.setItem('currentUser', JSON.stringify(user));
       setCurrentUser(user);
       
@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
   const value = {
     user: currentUser,
     login,
-    loginWithGoogle, // ← ADICIONE ESTA LINHA
+    loginWithGoogle, 
     logout,
     loading
   };

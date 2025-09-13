@@ -1,11 +1,11 @@
 import React, { useState } from 'react';    
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // Importação necessária
+import { useAuth } from '../../context/AuthContext'; 
 import Logo_branca from '../../assets/Imagens/Logo_branca.png';
 
 const CabecalhoEMTU = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { user, logout } = useAuth(); // Obtendo informações do usuário
+    const { user, logout } = useAuth(); 
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
@@ -70,7 +70,7 @@ const CabecalhoEMTU = () => {
                     </div>
                 </div>
             
-                {/* Menu mobile controlado por estado */}
+                {}
                 <div id="mobile-menu" className={`md:hidden mt-5 ${mobileMenuOpen ? 'block' : 'hidden'} space-y-4`}>
                     <ul className="flex flex-col mt-4 font-medium space-y-4">
                         <li>

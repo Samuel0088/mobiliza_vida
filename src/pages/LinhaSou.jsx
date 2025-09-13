@@ -34,7 +34,7 @@ function LinhaSou() {
     { numero: "225", nome: "Mathiesen / Praia Recanto", motorista: { nome: "Diego", idade: 38, sexo: "Masculino" } }
   ];
 
-  // Filtrar linhas baseado no termo de busca
+  
   const linhasFiltradas = linhasOnibusSOU.filter(linha =>
     linha.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
     linha.nome.toLowerCase().includes(searchTerm.toLowerCase())
@@ -211,7 +211,7 @@ function LinhaSou() {
             )}
           </div>
 
-          {/* Informações adicionais */}
+          {}
           <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
             <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', border: '1px solid #e5e7eb' }}>
               <div style={{ color: '#2563eb', marginBottom: '12px' }}>

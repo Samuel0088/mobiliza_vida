@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function AcessibilidadeOnibus({ user, handleLogout }) {
-  // Estados para controle de acessibilidade
+  
   const [fontSize, setFontSize] = useState(18);
   const [highContrast, setHighContrast] = useState(false);
   const [assistMessage, setAssistMessage] = useState("");
@@ -13,7 +13,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
   });
   const [showForm, setShowForm] = useState(false);
 
-  // Configuração do listener para a tecla F1
+  
   useEffect(() => {
     const handleKey = (ev) => {
       if (ev.key === "F1") {
@@ -25,7 +25,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  // Função para ajustar o tamanho da fonte
+  
   const handleFont = (mult) => {
     const newSize = Math.max(14, Math.min(28, Math.round(fontSize * mult)));
     setFontSize(newSize);
@@ -33,14 +33,14 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
     setTimeout(() => setAssistMessage(""), 3000);
   };
 
-  // Função para alternar o modo de alto contraste
+  
   const handleContrast = () => {
     setHighContrast((prev) => !prev);
     setAssistMessage(`Modo ${!highContrast ? "alto contraste ativado" : "alto contraste desativado"}.`);
     setTimeout(() => setAssistMessage(""), 3000);
   };
 
-  // Função para enviar o formulário de solicitação de ajuda
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(`Solicitação enviada. Obrigado, ${formData.name + ". " + "Tipo de soliçitação: " + formData.helpType}. Equipe informada.`);
@@ -49,7 +49,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
     setTimeout(() => setAssistMessage(""), 5000);
   };
 
-  // Função para manipular mudanças nos inputs do formulário
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -160,7 +160,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
           </div>
         )}
 
-        {/* Mensagem de feedback para o usuário */}
+        {}
         {assistMessage && (
           <div 
             className={`max-w-7xl mx-auto mt-4 p-3 rounded-lg border ${highContrast ? "bg-yellow-400 text-black border-yellow-500" : "bg-yellow-100 text-gray-900 border-yellow-300"}`}
@@ -170,7 +170,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
             {assistMessage}
           </div>
         )}
-      {/* Link para pular para o conteúdo principal (acessibilidade) */}
+      {}
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-yellow-400 focus:px-4 focus:py-2 focus:rounded focus:text-black focus:font-bold"
@@ -178,7 +178,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
         Pular para o conteúdo principal
       </a>
 
-      {/* Conteúdo principal da página */}
+      {}
      <main id="main" className="max-w-6xl mx-auto p-4 pb-10">
         <section className="my-8">
           <h2 className="text-2xl font-bold mb-4">Acessibilidade no Transporte Público</h2>
@@ -303,7 +303,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
           </div>
         </section>
 
-        {/* NOVA SEÇÃO: Legislação e Normas */}
+        {}
         <section className="my-8">
           <h2 className="text-2xl font-bold mb-4">Legislação e Normas de Acessibilidade</h2>
           <div className={`p-6 rounded-lg shadow ${highContrast ? "bg-gray-900 border-2 border-yellow-400" : "bg-white"}`}>
@@ -333,7 +333,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
           </div>
         </section>
 
-        {/* NOVA SEÇÃO: Perguntas Frequentes */}
+        {}
         <section className="my-8">
           <h2 className="text-2xl font-bold mb-4">Perguntas Frequentes</h2>
           <div className={`p-6 rounded-lg shadow ${highContrast ? "bg-gray-900 border-2 border-yellow-400" : "bg-white"}`}>
@@ -361,7 +361,7 @@ export default function AcessibilidadeOnibus({ user, handleLogout }) {
           </div>
         </section>
 
-        {/* NOVA SEÇÃO: Contatos Úteis */}
+        {}
         <section className="my-8">
           <h2 className="text-2xl font-bold mb-4">Contatos Úteis</h2>
           <div className={`p-6 rounded-lg shadow ${highContrast ? "bg-gray-900 border-2 border-yellow-400" : "bg-white"}`}>

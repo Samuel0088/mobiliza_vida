@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 const PlanejadorRotas = () => {
   return (
     <div className="w-full max-w-[900px] sm:mb-[-150px] sm:mt-[100px] mx-auto p-5 font-sans text-gray-800">
-      {/* Seção de Opções */}
+      {}
       <div className="w-full p-10 rounded-3xl shadow-2xl border border-blue-50 relative">
-        {/* Badge */}
+        {}
         <span className="absolute top-5 right-5 bg-blue-800 text-white px-3 py-1.5 rounded-full text-xs font-semibold">
           Novo • Integra SP
         </span>
         <br />
-        {/* Grid de Opções */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 w-full">
           <Link
             to="/LinhaEMTU"
@@ -62,7 +62,7 @@ const PlanejadorRotas = () => {
           </Link>
         </div>
 
-        {/* Sugestões Rápidas */}
+        {}
         <div className="mt-5 w-full">
           <h3 className="text-lg font-semibold mb-4 text-gray-800">
             Sugestões rápidas

@@ -14,7 +14,7 @@ export default function Cadastro() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Verificar se já está logado
+  
   useEffect(() => {
     if (user) {
       navigate("/home");
@@ -26,7 +26,7 @@ export default function Cadastro() {
     setError("");
     setLoading(true);
 
-    // Validações
+    
     if (password !== confirmPassword) {
       setError("As senhas não coincidem");
       setLoading(false);
@@ -39,7 +39,7 @@ export default function Cadastro() {
       return;
     }
 
-    // Validação de email
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Por favor, insira um email válido");
@@ -48,10 +48,10 @@ export default function Cadastro() {
     }
 
     try {
-      // Buscar usuários existentes do localStorage
+      
       const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
       
-      // Verificar se email já existe
+      
       if (existingUsers.some(user => user.email === email)) {
         setError("Este email já está cadastrado");
         setLoading(false);
