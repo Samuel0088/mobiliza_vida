@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import style from "./Conteudo.module.css";
 import BusMap from "./BusMap";
 import PlanejadorRota from "./Escolha";
@@ -10,6 +10,9 @@ const Conteudo = () => {
   const [displayedWord, setDisplayedWord] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [typing, setTyping] = useState(true);
+
+  // referencia para o wrapper do mapa
+  const mapRef = useRef(null);
 
   // efeito de digitação
   useEffect(() => {
@@ -52,6 +55,30 @@ const Conteudo = () => {
   // calcula o tamanho da maior palavra
   const maxWordLength = Math.max(...words.map((w) => w.length));
 
+  // função robusta de scroll para o mapa
+  const scrollToMap = () => {
+    const el = mapRef.current;
+    if (!el) return;
+
+    // tentativa padrão
+    try {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    } catch (err) {
+      // continua para fallback
+    }
+
+    // fallback: calcula posição e aplica offset (ajuste headerOffset se tiver header fixo)
+    const rect = el.getBoundingClientRect();
+    const scrollTop = window.scrollY || window.pageYOffset;
+    const elementTop = rect.top + scrollTop;
+    const headerOffset = 80; // <--- ajuste esse valor se tiver header fixo ou margens negativas
+    window.scrollTo({
+      top: elementTop - headerOffset,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <main
       className={`${style.Conteudo} font-poppins relative px-2 md:px-6 lg:px-24`}
@@ -90,6 +117,7 @@ const Conteudo = () => {
               className={`${style.botaoOpcoes} font-semibold`}
               role="button"
               style={poppinsInline}
+              onClick={scrollToMap}
             >
               Ver rotas
             </button>
@@ -108,7 +136,12 @@ const Conteudo = () => {
 
       <br />
       <br />
-      <BusMap />
+
+      {/* WRAPPER DO MAPA com ref e id */}
+      <div ref={mapRef} id="mapa">
+        <BusMap />
+      </div>
+
       <PlanejadorRota />
     </main>
   );

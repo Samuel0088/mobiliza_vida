@@ -65,7 +65,6 @@
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   margin-top: 0.25rem;
-  z-index: 50;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -158,6 +157,15 @@
   display: inline-block;
 }
 
+.leaflet-container {
+  z-index: 0 !important;
+}
+
+.leaflet-pane {
+  z-index: 0 !important;
+}
+
+
 /* Ajustes adicionais de responsividade */
 @media (max-width: 768px) {
   .container {
@@ -167,6 +175,7 @@
 
   .selector button {
     padding: 0.5rem 0.75rem;
+    z-index: 100000000000000000000000000000;
   }
 
   .lineInfoCard {

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "leaflet-routing-machine";
+import busImg from "../../assets/Imagens/bus.png"; // ajuste caminho se necessário
 
-// Corrige ícones do Leaflet
+// Corrige ícones do Leaflet padrão
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -16,42 +17,109 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+// Ícone do ônibus (custom)
+const busIcon = new L.Icon({
+  iconUrl: busImg,
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+});
+
 // ---------------- EXEMPLO DE LOCALIZAÇÕES ----------------
 const LOCATIONS = {
   TERMINAL: [-22.73, -47.32],
   JARDIM_BRASIL: [-22.743, -47.333],
   NOVO_MUNDO: [-22.7305, -47.325],
+  ZANAGA: [-22.739, -47.31],
+  ALABAMA: [-22.728, -47.34],
+  BERTONI: [-22.736, -47.35],
+  MATHIENSEN: [-22.726, -47.33],
+  PRAIA_AZUL: [-22.715, -47.33],
+  SBO_CENTRO: [-22.753, -47.414],
+  CAMPINAS: [-22.91, -47.06],
+  PIRACICABA: [-22.73, -47.64],
+  LIMEIRA: [-22.56, -47.4],
+  NOVA_ODESSA: [-22.78, -47.29],
+  SUMARE: [-22.82, -47.27],
+  HORTOLANDIA: [-22.86, -47.22],
+  PAULINIA: [-22.76, -47.15],
+  COSMOPOLIS: [-22.65, -47.20],
+  CAPIVARI: [-22.99, -47.51],
+  MONTE_MOR: [-22.95, -47.31],
+  ELIAS_FAUSTO: [-23.04, -47.37],
+  IRACEMAPOLIS: [-22.58, -47.52],
+  CORDEIROPOLIS: [-22.47, -47.45],
+  RIO_CLARO: [-22.41, -47.56],
 };
 
-// ---------------- LINHAS DE ÔNIBUS ----------------
+// ---------------- TODAS AS LINHAS (SOU + EMTU) ----------------
 const BUS_LINES = {
   SOU: {
-    "102": {
-      name: "Jardim Brasil ↔ Novo Mundo",
-      origin: "Jardim Brasil",
-      destination: "Novo Mundo",
-      coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.NOVO_MUNDO],
-    },
-    "103": {
-      name: "Jardim Brasil ↔ Terminal",
-      origin: "Jardim Brasil",
-      destination: "Terminal Central",
-      coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.TERMINAL],
-    },
+    "102": { name: "Jardim Brasil ↔ Novo Mundo", origin: "Jardim Brasil", destination: "Novo Mundo", coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.NOVO_MUNDO] },
+    "103": { name: "Jardim Brasil ↔ Antônio Zanaga / Alabama", origin: "Jardim Brasil", destination: "Alabama", coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.ZANAGA, LOCATIONS.ALABAMA] },
+    "104": { name: "Bertini / Alabama / Mathiensen", origin: "Bertoni", destination: "Mathiensen", coordinates: [LOCATIONS.BERTONI, LOCATIONS.ALABAMA, LOCATIONS.MATHIENSEN] },
+    "105": { name: "Bertini / Jardim Alvorada", origin: "Bertoni", destination: "Novo Mundo", coordinates: [LOCATIONS.BERTONI, LOCATIONS.NOVO_MUNDO] },
+    "106": { name: "Jardim Bertoni / Terminal", origin: "Bertoni", destination: "Terminal", coordinates: [LOCATIONS.BERTONI, LOCATIONS.TERMINAL] },
+    "107": { name: "São Roque / Parque das Nações / Bertoni", origin: "Novo Mundo", destination: "Bertoni", coordinates: [LOCATIONS.NOVO_MUNDO, LOCATIONS.BERTONI] },
+    "108": { name: "Bertini / Cariobinha / Terminal", origin: "Bertoni", destination: "Terminal", coordinates: [LOCATIONS.BERTONI, LOCATIONS.TERMINAL] },
+    "111": { name: "Sobrado Velho / Terminal via Cadeião", origin: "Novo Mundo", destination: "Terminal", coordinates: [LOCATIONS.NOVO_MUNDO, LOCATIONS.TERMINAL] },
+    "112": { name: "Portal dos Nobres / Iate / Terminal", origin: "Jardim Brasil", destination: "Terminal", coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.TERMINAL] },
+    "114": { name: "Mathiesen / Antônio Zanaga", origin: "Mathiensen", destination: "Zanaga", coordinates: [LOCATIONS.MATHIENSEN, LOCATIONS.ZANAGA] },
+    "116": { name: "Morada do Sol / Terminal", origin: "Novo Mundo", destination: "Terminal", coordinates: [LOCATIONS.NOVO_MUNDO, LOCATIONS.TERMINAL] },
+    "117": { name: "Mathiesen / Novo Mundo / Jardim Alvorada", origin: "Mathiensen", destination: "Novo Mundo", coordinates: [LOCATIONS.MATHIENSEN, LOCATIONS.NOVO_MUNDO] },
+    "118": { name: "Antônio Zanaga / Novo Mundo", origin: "Zanaga", destination: "Novo Mundo", coordinates: [LOCATIONS.ZANAGA, LOCATIONS.NOVO_MUNDO] },
+    "119": { name: "Parque Liberdade / Praia dos Namorados / Jardim Asta", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "200": { name: "Jardim Brasília / Praia Recanto via Av. Brasil", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "201": { name: "Jardim Brasília / Praia Azul via Av. Campos Sales", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "205": { name: "Jardim Brasília / Antônio Zanaga via Av. Brasil", origin: "Terminal", destination: "Zanaga", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.ZANAGA] },
+    "206": { name: "Jardim da Paz / Terminal", origin: "Novo Mundo", destination: "Terminal", coordinates: [LOCATIONS.NOVO_MUNDO, LOCATIONS.TERMINAL] },
+    "207": { name: "Jardim da Paz / Terminal", origin: "Jardim Brasil", destination: "Terminal", coordinates: [LOCATIONS.JARDIM_BRASIL, LOCATIONS.TERMINAL] },
+    "208": { name: "Jardim da Paz / Antônio Zanaga", origin: "Terminal", destination: "Zanaga", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.ZANAGA] },
+    "211": { name: "Jardim da Paz / Werner Plass via Av. Campos Sales", origin: "Novo Mundo", destination: "Terminal", coordinates: [LOCATIONS.NOVO_MUNDO, LOCATIONS.TERMINAL] },
+    "212": { name: "Jardim da Paz / Praia Azul via Rio Branco", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "213": { name: "Jardim da Balsa / Hospital Municipal", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "220": { name: "Mário Covas / Praia Recanto via Av. Campos Sales", origin: "Terminal", destination: "Praia Azul", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.PRAIA_AZUL] },
+    "224": { name: "Jardim Bôer / Terminal", origin: "Terminal", destination: "Novo Mundo", coordinates: [LOCATIONS.TERMINAL, LOCATIONS.NOVO_MUNDO] },
+    "225": { name: "Mathiesen / Praia Recanto", origin: "Mathiensen", destination: "Praia Azul", coordinates: [LOCATIONS.MATHIENSEN, LOCATIONS.PRAIA_AZUL] },
   },
   EMTU: {
-    "651": {
-      name: "Terminal ↔ Novo Mundo",
-      origin: "Terminal Central",
-      destination: "Novo Mundo",
-      coordinates: [LOCATIONS.TERMINAL, LOCATIONS.NOVO_MUNDO],
-    },
+    "605": { name: "Santa Bárbara d’Oeste ↔ Americana", origin: "Santa Bárbara", destination: "Americana", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.TERMINAL] },
+    "606": { name: "Santa Bárbara d’Oeste ↔ Campinas", origin: "Santa Bárbara", destination: "Campinas", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.CAMPINAS] },
+    "607": { name: "Santa Bárbara d’Oeste ↔ Piracicaba", origin: "Santa Bárbara", destination: "Piracicaba", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.PIRACICABA] },
+    "608": { name: "Santa Bárbara d’Oeste ↔ Limeira", origin: "Santa Bárbara", destination: "Limeira", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.LIMEIRA] },
+    "609": { name: "Santa Bárbara d’Oeste ↔ Nova Odessa", origin: "Santa Bárbara", destination: "Nova Odessa", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.NOVA_ODESSA] },
+    "610": { name: "Santa Bárbara d’Oeste ↔ Sumaré", origin: "Santa Bárbara", destination: "Sumaré", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.SUMARE] },
+    "611": { name: "Santa Bárbara d’Oeste ↔ Hortolândia", origin: "Santa Bárbara", destination: "Hortolândia", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.HORTOLANDIA] },
+    "612": { name: "Santa Bárbara d’Oeste ↔ Paulínia", origin: "Santa Bárbara", destination: "Paulínia", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.PAULINIA] },
+    "613": { name: "Santa Bárbara d’Oeste ↔ Cosmópolis", origin: "Santa Bárbara", destination: "Cosmópolis", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.COSMOPOLIS] },
+    "614": { name: "Santa Bárbara d’Oeste ↔ Capivari", origin: "Santa Bárbara", destination: "Capivari", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.CAPIVARI] },
+    "615": { name: "Santa Bárbara d’Oeste ↔ Monte Mor", origin: "Santa Bárbara", destination: "Monte Mor", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.MONTE_MOR] },
+    "616": { name: "Santa Bárbara d’Oeste ↔ Elias Fausto", origin: "Santa Bárbara", destination: "Elias Fausto", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.ELIAS_FAUSTO] },
+    "617": { name: "Santa Bárbara d’Oeste ↔ Iracemápolis", origin: "Santa Bárbara", destination: "Iracemápolis", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.IRACEMAPOLIS] },
+    "618": { name: "Santa Bárbara d’Oeste ↔ Cordeirópolis", origin: "Santa Bárbara", destination: "Cordeirópolis", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.CORDEIROPOLIS] },
+    "619": { name: "Santa Bárbara d’Oeste ↔ Rio Claro", origin: "Santa Bárbara", destination: "Rio Claro", coordinates: [LOCATIONS.SBO_CENTRO, LOCATIONS.RIO_CLARO] },
   },
 };
 
-// ---------------- COMPONENTE DE ROTEAMENTO ----------------
-function Routing({ coords, setRouteInfo }) {
+// ---------------- UTIL: distância haversine (m) ----------------
+function haversineMeters(a, b) {
+  const toRad = (v) => (v * Math.PI) / 180;
+  const R = 6371000; // metros
+  const dLat = toRad(b[0] - a[0]);
+  const dLon = toRad(b[1] - a[1]);
+  const lat1 = toRad(a[0]);
+  const lat2 = toRad(b[0]);
+
+  const sinDLat = Math.sin(dLat / 2);
+  const sinDLon = Math.sin(dLon / 2);
+  const A = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  const C = 2 * Math.atan2(Math.sqrt(A), Math.sqrt(1 - A));
+  return R * C;
+}
+
+// ---------------- COMPONENTE ROTEAMENTO (usa L.Routing.control) ----------------
+function Routing({ coords, setRouteInfo, setRouteCoords }) {
   const map = useMap();
+
   useEffect(() => {
     if (!coords || coords.length < 2) return;
 
@@ -61,22 +129,119 @@ function Routing({ coords, setRouteInfo }) {
       addWaypoints: false,
       draggableWaypoints: false,
       routeWhileDragging: false,
+      fitSelectedRoutes: true,
       show: false,
       createMarker: () => null,
     }).addTo(map);
 
-    routingControl.on("routesfound", (e) => {
-      const route = e.routes[0];
-      const summary = route.summary;
-      setRouteInfo({
-        distance: (summary.totalDistance / 1000).toFixed(2) + " km",
-        duration: Math.round(summary.totalTime / 60) + " min",
-      });
-    });
+    const onRoutesFound = (e) => {
+  const route = e.routes[0];
+  const summary = route.summary;
+  const fullCoords = route.coordinates.map((c) => [c.lat, c.lng]);
 
-    return () => map.removeControl(routingControl);
-  }, [coords, map, setRouteInfo]);
+  // Distância total em km
+  const distanceKm = summary.totalDistance / 1000;
+
+  // 🚍 velocidade média de ônibus urbano (15 km/h = 0.25 km/min)
+  const busSpeedKmh = 15;
+  const busSpeedKmMin = busSpeedKmh / 60;
+
+  // tempo em minutos (distância / velocidade)
+  const durationMin = distanceKm / busSpeedKmMin;
+
+  setRouteCoords(fullCoords);
+  setRouteInfo({
+    distance: distanceKm.toFixed(2) + " km",
+    duration: Math.round(durationMin) + " min",
+  });
+};
+
+
+    routingControl.on("routesfound", onRoutesFound);
+
+    return () => {
+      routingControl.off("routesfound", onRoutesFound);
+      map.removeControl(routingControl);
+    };
+  }, [coords, map, setRouteInfo, setRouteCoords]);
+
   return null;
+}
+
+// ---------------- ÔNIBUS ANIMADO (segue a geometria completa da rota) ----------------
+function AnimatedBus({ routeCoords, speedKmh = 10 }) {
+  const [position, setPosition] = useState(routeCoords ? routeCoords[0] : null);
+  const indexRef = useRef(0);        // índice do ponto de partida do segmento atual
+  const offsetRef = useRef(0);       // distância percorrida no segmento atual (m)
+  const rafRef = useRef(null);
+  const lastTimeRef = useRef(null);
+
+  useEffect(() => {
+    if (!routeCoords || routeCoords.length < 2) return;
+
+    // velocidade em m/s (padrão 10 km/h -> ~2.78 m/s)
+    const speed = (speedKmh * 1000) / 3600;
+
+    indexRef.current = 0;
+    offsetRef.current = 0;
+    setPosition(routeCoords[0]);
+    lastTimeRef.current = performance.now();
+
+    function step(time) {
+      const dt = (time - lastTimeRef.current) / 1000; // segundos desde último frame
+      lastTimeRef.current = time;
+
+      let i = indexRef.current;
+      // ponto atual e próximo ponto
+      let a = routeCoords[i];
+      let b = routeCoords[(i + 1) % routeCoords.length];
+
+      // distância total do segmento (m)
+      let segDist = haversineMeters(a, b);
+
+      // distância percorrida adicional neste frame (m)
+      let move = speed * dt;
+
+      offsetRef.current += move;
+
+      // avançar de segmento se necessário (loop automático)
+      while (offsetRef.current >= segDist) {
+        offsetRef.current -= segDist;
+        i = (i + 1) % routeCoords.length;
+        a = routeCoords[i];
+        b = routeCoords[(i + 1) % routeCoords.length];
+        segDist = haversineMeters(a, b);
+        // se segmento com dist 0 (duplicado), continue
+        if (segDist === 0) {
+          offsetRef.current = 0;
+          break;
+        }
+      }
+
+      // interpolação entre a e b
+      const t = segDist === 0 ? 0 : offsetRef.current / segDist;
+      const lat = a[0] + (b[0] - a[0]) * t;
+      const lng = a[1] + (b[1] - a[1]) * t;
+
+      indexRef.current = i;
+      setPosition([lat, lng]);
+
+      rafRef.current = requestAnimationFrame(step);
+    }
+
+    rafRef.current = requestAnimationFrame(step);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [routeCoords, speedKmh]);
+
+  if (!position) return null;
+  return (
+    <Marker position={position} icon={busIcon}>
+      <Popup>Ônibus em tempo real</Popup>
+    </Marker>
+  );
 }
 
 // ---------------- DROPDOWN DE LINHAS ----------------
@@ -84,7 +249,7 @@ function LineSelect({ busLines, selectedLine, setSelectedLine }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div style={{ marginBottom: "1rem", width: "100%" }}>
+    <div style={{ marginBottom: "1rem", width: "100%"}}>
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Selecione uma linha:
       </label>
@@ -95,9 +260,7 @@ function LineSelect({ busLines, selectedLine, setSelectedLine }) {
           className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-pointer"
         >
           <span className="block truncate">
-            {selectedLine
-              ? `${selectedLine} - ${busLines[selectedLine].name}`
-              : "Selecione uma linha"}
+            {selectedLine ? `${selectedLine} - ${busLines[selectedLine].name}` : "Selecione uma linha"}
           </span>
         </button>
         {open && (
@@ -126,33 +289,31 @@ export default function BusMap() {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [selectedLine, setSelectedLine] = useState("");
   const [routeInfo, setRouteInfo] = useState(null);
+  const [routeCoords, setRouteCoords] = useState(null); // geometria completa da rota (muitos pontos)
 
   const filteredLines = selectedCompany ? BUS_LINES[selectedCompany] : {};
 
+  // Quando troca de linha, limpa info/rota
+  useEffect(() => {
+    setRouteInfo(null);
+    setRouteCoords(null);
+  }, [selectedLine, selectedCompany]);
+
   return (
     <>
-      {/* CSS para mudar layout no mobile */}
       <style>{`
         .wrapper {
           display: flex;
-          flex-direction: row; /* desktop padrão */
+          flex-direction: row;
           flex: 1;
           max-width: 1400px;
           height: 100%;
           gap: 1rem;
         }
         @media (max-width: 768px) {
-          .wrapper {
-            flex-direction: column; /* mobile: painel em cima, mapa embaixo */
-          }
-          .panel {
-            max-height: 40vh;
-            overflow-y: auto;
-          }
-          .map {
-            min-height: 300px;
-            flex: none;
-          }
+          .wrapper { flex-direction: column; }
+          .panel { max-height: 100vh; overflow-y: auto; z-index: 20; }
+          .map { min-height: 300px; flex: none; z-index: 10;}
         }
       `}</style>
 
@@ -167,10 +328,8 @@ export default function BusMap() {
           alignItems: "center",
           padding: "1rem",
           boxSizing: "border-box",
-          marginBottom: "100px",
         }}
       >
-        {/* WRAPPER */}
         <div className="wrapper">
           {/* PAINEL */}
           <div
@@ -181,20 +340,18 @@ export default function BusMap() {
               background: "#fff",
               borderRadius: "12px",
               boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-              overflowY: "visible", // padrão desktop (vai ser overriden no mobile pelo CSS)
+              overflowY: "visible",
             }}
           >
             <h2 className="text-2xl font-bold mb-4">Mapa em tempo real</h2>
             <p className="mb-4 text-gray-700">
-              Este mapa mostra a posição do ônibus em tempo real, indicando sua
-              distância e tempo estimado até o destino.
+              Este mapa mostra a posição do ônibus em tempo real (simulada),
+              seguindo exatamente a rota calculada (linha azul).
             </p>
 
             {/* Empresa */}
             <div style={{ marginBottom: "1.5rem", width: "100%" }}>
-              <label className="block text-sm font-medium">
-                Selecione a empresa:
-              </label>
+              <label className="block text-sm font-medium">Selecione a empresa:</label>
               <select
                 value={selectedCompany}
                 onChange={(e) => {
@@ -214,30 +371,27 @@ export default function BusMap() {
               <LineSelect
                 busLines={filteredLines}
                 selectedLine={selectedLine}
-                setSelectedLine={setSelectedLine}
+                setSelectedLine={(line) => {
+                  setSelectedLine(line);
+                  // ao escolher linha, informe para limpar rota antiga
+                  setRouteInfo(null);
+                  setRouteCoords(null);
+                }}
               />
             )}
 
             {/* Info rota */}
-            {selectedLine && (
+            {selectedLine && filteredLines[selectedLine] && (
               <div className="mt-6 border p-4 rounded bg-gray-50 w-full">
                 <h3 className="font-bold mb-2">
                   {selectedLine} - {filteredLines[selectedLine].name}
                 </h3>
-                <div>
-                  <strong>Origem:</strong> {filteredLines[selectedLine].origin}
-                </div>
-                <div>
-                  <strong>Destino:</strong> {filteredLines[selectedLine].destination}
-                </div>
+                <div><strong>Origem:</strong> {filteredLines[selectedLine].origin}</div>
+                <div><strong>Destino:</strong> {filteredLines[selectedLine].destination}</div>
                 {routeInfo && (
                   <>
-                    <div>
-                      <strong>Distância:</strong> {routeInfo.distance}
-                    </div>
-                    <div>
-                      <strong>Tempo estimado:</strong> {routeInfo.duration}
-                    </div>
+                    <div><strong>Distância:</strong> {routeInfo.distance}</div>
+                    <div><strong>Tempo estimado:</strong> {routeInfo.duration}</div>
                   </>
                 )}
               </div>
@@ -253,37 +407,41 @@ export default function BusMap() {
               overflow: "hidden",
               boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
               background: "#fff",
-              minHeight: "auto", // padrão desktop (será sobrescrito no mobile pelo CSS)
+              minHeight: "auto",
               height: "100%",
               zIndex: "10"
             }}
           >
-            <MapContainer
-              center={[-22.73, -47.33]}
-              zoom={13}
-              style={{ height: "100%", width: "100%" }}
-            >
+            <MapContainer center={LOCATIONS.TERMINAL} zoom={13} style={{ height: "100%", width: "100%" }}>
               <TileLayer
                 url="http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
                 attribution="&copy; <a href='https://www.google.com/maps'>Google Maps</a>"
               />
-              {selectedLine &&
-                filteredLines[selectedLine].coordinates.map((pos, idx) => (
-                  <Marker key={idx} position={pos}>
-                    <Popup>
-                      {idx === 0
-                        ? "Origem"
-                        : idx === filteredLines[selectedLine].coordinates.length - 1
-                        ? "Destino"
-                        : "Parada"}
-                    </Popup>
-                  </Marker>
-                ))}
-              {selectedLine && (
+
+              {/* Se selecionou linha, adiciona roteamento (que calcula polyline completa)
+                  e quando a rota for resolvida Routing chamará setRouteCoords(...) */}
+              {selectedLine && filteredLines[selectedLine] && (
                 <Routing
                   coords={filteredLines[selectedLine].coordinates}
                   setRouteInfo={setRouteInfo}
+                  setRouteCoords={setRouteCoords}
                 />
+              )}
+
+              {/* marcador de origem/destino (waypoints iniciais) */}
+              {selectedLine &&
+                filteredLines[selectedLine] &&
+                filteredLines[selectedLine].coordinates.map((pos, idx) => (
+                  <Marker key={idx} position={pos}>
+                    <Popup>
+                      {idx === 0 ? "Origem" : idx === filteredLines[selectedLine].coordinates.length - 1 ? "Destino" : "Parada"}
+                    </Popup>
+                  </Marker>
+                ))}
+
+              {/* Ônibus animado: segue routeCoords (geometria completa) */}
+              {routeCoords && routeCoords.length > 0 && (
+                <AnimatedBus routeCoords={routeCoords} speedKmh={10} />
               )}
             </MapContainer>
           </div>

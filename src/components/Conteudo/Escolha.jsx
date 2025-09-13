@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const PlanejadorRotas = () => {
   return (
-    <div className="w-full max-w-[900px] mx-auto p-5 font-sans text-gray-800">
+    <div className="w-full max-w-[900px] sm:mb-[-150px] sm:mt-[100px] mx-auto p-5 font-sans text-gray-800">
       {/* Seção de Opções */}
       <div className="w-full p-10 rounded-3xl shadow-2xl border border-blue-50 relative">
         {/* Badge */}

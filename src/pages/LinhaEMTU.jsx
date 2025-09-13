@@ -83,7 +83,7 @@ function LinhaEMTU() {
 
   return (
     <>
-    <div className="mb-[200px] sm:mb-0">
+    <div className="mb-[200px] sm:mb-[100px]">
       <div className="container-principal" style={{ minHeight: '100vh', backgroundColor: '#f9fafb', marginTop: '-80px', marginBottom: '-150px'}}>
         <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 20px' }}>
           <header style={{ marginBottom: '40px' }}>
@@ -368,3 +368,16 @@ function LinhaEMTU() {
 }
 
 export default LinhaEMTU;
+
+
+
+
+
+
+
+
+
+
+
+
+
